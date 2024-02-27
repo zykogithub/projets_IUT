@@ -1,0 +1,213 @@
+@charset "utf-8";
+
+
+body{
+    margin: 0px;
+    padding: 0px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+nav{ /*responsive à faire*/
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: left;
+    align-items: center;
+    border-bottom: 5px solid #6f6f6f;
+}
+
+nav .pages{ /*responsive à faire*/
+    margin-top: 10px;
+    margin-left: 300px;
+}
+nav .pages a{ /*responsive à faire*/
+    text-decoration: none;
+    color: #000;
+    margin-right: 350px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+    padding: 100px;
+    text-align: center;
+}
+
+header h1{
+    font-size: 50px;
+}
+header h4{
+    margin-top: -20px;
+    font-size: 20px;
+    text-align: center;
+    font-style: italic;
+}
+h3{
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-size: large;
+    font-size: 30px;
+    margin-bottom: 3px;
+  }
+  aside{
+    border-color: #000 ;
+    border: 5px;
+    background-image: url(../autre/images/image_de_ecole.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+.main{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.main .content .cours{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom:20px;
+}
+.main .content .cours .left{
+   flex: 0 0 30%;
+   padding: 20px;
+   background-color:black;
+   color:#fff;
+}
+.main .content .cours .right img{
+    height:300px;
+    width: 400px;
+    margin-top: 5px;
+}
+.contact-info {
+    
+    width: 120%;
+    
+}
+footer{
+    margin-top: 40px;
+    border-top: 5px solid #6f6f6f;
+    background-color: rgb(0, 0, 0);
+    color: #fff;
+    padding: 30px 100px;;
+}
+footer h1{
+    border-bottom: 1px solid white;
+    width: 20%;
+    padding-bottom: 5px;
+}
+footer .services{
+    margin-top: -10px;
+    display:flex;
+    flex-wrap:wrap;
+}
+footer .services .service{
+    margin-right: 30px;
+}
+footer .services .service p{
+    max-width: 300px;
+}
+footer #piedpage{
+    color: rgb(181, 181, 181);
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.content {
+    flex: 1;
+}
+
+#page_contact{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+.left-section {
+    float: left;
+    width: 40%;
+    padding: 20px;
+}
+
+.contact-info {
+    background-color: black;
+    color: white;
+    padding: 15px;
+    
+    margin : 10px;
+    border-radius: 30px;
+}
+
+.right-section {
+    
+    width: 50%;
+    padding: 20px;
+    /* Ajoutez d'autres styles selon vos besoins */
+  }
+
+.map-info {
+    height: 350px;
+    width: 350px;
+    background-color: black;
+    color: white;
+    padding: 20px;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    /* Ajoutez d'autres styles si nécessaire */
+}
+.left-section  a img {
+    width: 100%;
+   }
+   h3{
+    font-size: 100%;
+   }
+   
+
+
+
+  
+.contact-form {
+    width: 50%;
+    margin: 50px auto 0 25rem; /* Marge supérieure pour déplacer vers le bas */
+    padding: 20px;
+    border: 3px solid #000000;
+    border-radius: 20px;
+  }
+  .contact-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .contact-form input[type="text"],
+  .contact-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+  }
+  .contact-form textarea {
+    height: 100px;
+  }
+  .contact-form input[type="submit"] {
+    padding: 10px 20px;
+    background-color: darkgrey;
+    color: black;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  .contact-form input[type="submit"]:hover {
+    background-color: #438229;
+  }

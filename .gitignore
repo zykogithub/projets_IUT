@@ -1,0 +1,20 @@
+*.pdf
+*.jpg
+*.jpeg
+*.PNG
+*.docx
+*.ppm
+*.xls
+*.xlsx
+*.doc
+*.txt
+*.obj
+*.exe
+!/data_base_project/modèles/script_SR.txt
+!/data_base_project/modèles/dictionnaire_de_donne.xlsx
+!/data_base_project/capture/SR final.PNG
+!/data_base_project/capture/MCD_final.PNG
+/web_project/autre/redirection_salin.html
+*.zip
+web_project/à_faire_page.css
+/algorithm_project/.vscode

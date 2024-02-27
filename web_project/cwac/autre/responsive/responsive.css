@@ -1,0 +1,153 @@
+@charset "utf-8";
+
+
+@media (max-width: 1538px) {
+	
+    /* pour 
+        -nav */
+        a+.pages{
+            display: flex;
+            justify-content: center;
+            
+    
+        }
+        nav .pages a {
+            text-decoration: none;
+            color: #000;
+            margin-right: 350px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 6px;
+          }
+    
+}
+
+
+@media (max-width: 1181px) {
+	
+    
+        a+.pages{
+            display: flex;
+            flex-direction: column;
+            
+    
+        }
+        
+}
+@media (max-width:1033px) {
+    #partie_grille
+{
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  margin-left: 200px;
+    
+}
+@media (max-width:847px) /*faire descendre les 3 images */{
+    
+      #flexbox #section_du_milieu,#flebox #premier{
+        display: grid;
+        grid-template-columns: 1fr ;
+        column-gap: 10px;
+      }
+    
+}
+
+    
+}
+
+@media (max-width: 805px) {
+    /* pour :
+        -élément de la page formation
+        -élément de la page contact */
+        
+        .main{
+            margin-left:50vh;
+            margin-right: 50vh;
+        }
+        
+}
+   @media (max-width: 501px) {
+    nav{ /*responsive à faire*/
+        display:flex;
+        flex-wrap:wrap;
+        justify-content: center;
+        align-items: center;
+        
+    }
+}
+@media (max-width: 405px) {
+    /* pour :
+        -élément de la page formation
+        -élément de la page contact */
+        
+        .main{
+            margin-left:30vh;
+            margin-right: 30vh;
+            
+            
+        }
+    main .content .cours .right  {
+        height: 200px;
+        width: 300px;
+        
+}
+	
+}
+
+@media (max-width : 611px) {
+    
+
+ 
+    #premier,#paragraphe,#partie_grille   {
+        display: grid;
+        grid-template-columns: 1fr
+        
+    }
+
+    #partie_grille {
+      justify-content: center;
+      margin-left: 170px;
+    }
+    
+    #en_bas{
+    grid-template-columns: 1fr;
+    margin-left: -54px;
+    }
+}
+
+@media (max-width : 466px) {
+    #flexbox {
+  margin-left: -60px;
+    }
+}
+
+@media (max-width : 1003px) {
+    main .left_section{
+        display : grid;
+        grid-template-columns: 1fr
+        
+    }
+        
+        
+        .right-section {
+            padding: 20px;
+            width: 50%;
+        }
+
+        
+        
+        .contact-form{
+            margin-left: 10px;
+        }
+         
+        
+        #page_contact {
+            display: grid;
+          grid-template-columns: 1fr;
+        }
+        ;
+    }
+
+    
+	
+

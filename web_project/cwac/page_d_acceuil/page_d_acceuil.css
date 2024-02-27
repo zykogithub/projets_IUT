@@ -1,0 +1,192 @@
+@charset "utf-8";
+*{margin: 0; padding: 0;}
+
+/* responsive à faire sur la nav et le contenu du body */
+/* header */
+
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+  padding: 100px;
+  text-align: center;
+}
+
+header h1{
+  font-size: 50px;
+}
+header h4{
+  margin-top: 5px;
+  font-size: 20px;
+  text-align: center;
+  font-style: italic;
+}
+
+  nav{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: left;
+    align-items: center;
+    border-bottom: 5px solid #6f6f6f;
+}
+
+nav .pages{
+    margin-top: 10px;
+    margin-left: 300px;
+}
+nav .pages a{
+    text-decoration: none;
+    color: #000;
+    margin-right: 350px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+
+
+/* contenu */
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family:Arial, Helvetica, sans-serif;
+    }
+
+
+h3{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: large;
+  font-size: 30px;
+  margin-bottom: 3px;
+}
+aside{
+  border-color: #000 ;
+  border: 5px;
+  background-image: url("../autre/images/image_de_ecole.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+main{
+  background-image: url(../autre/images/image_de_fond.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.image>p{
+  font-size: 10px;
+}
+
+#flexbox{
+  display : flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+}
+#partie_grille
+{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+    
+}
+#en_bas div:first-child,#partie_grille div:first-child {
+  display: grid;
+  background-color:black;
+  color:#fff;
+  padding : 10px;
+  row-gap: 10px;
+    
+ 
+}
+
+#en_bas,#section_du_milieu, #premier {
+  width: 40%;
+  margin-top: 20px;}
+  
+#section_du_milieu, #premier{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  
+}
+
+
+ #premier>div:first-child{
+  height: 400px;
+}
+#en_bas{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+}
+#paragraphe
+{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 5px;
+
+}
+.image{
+  margin-top:80px;
+  
+  
+} 
+.image img{
+  width: 200px;
+  height: 300px;
+}
+
+#grille_argumentative  
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10px;
+    padding-bottom: 20px;
+    
+}
+
+
+#video
+{
+    display: flex;
+    justify-content: center;
+
+}
+  
+
+/* footer */
+
+footer{
+    margin-top: 40px;
+    border-top: 5px solid #6f6f6f;
+    background-color: rgb(0, 0, 0);
+    color: #fff;
+    padding: 30px 100px;
+}
+footer h1{
+    border-bottom: 1px solid white;
+    width: 20%;
+    padding-bottom: 5px;
+}
+footer .services{
+    margin-top: -10px;
+    display:flex;
+    flex-wrap:wrap;
+}
+footer .services .service{
+    margin-right: 30px;
+}
+footer .services .service p{
+    max-width: 300px;
+}
+footer #piedpage{
+    color: rgb(181, 181, 181);
+}
+  
+
