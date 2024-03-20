@@ -14,7 +14,10 @@
 !/data_base_project/modèles/dictionnaire_de_donne.xlsx
 !/data_base_project/capture/SR final.PNG
 !/data_base_project/capture/MCD_final.PNG
-/web_project/autre/redirection_salin.html
+!/web_project/autre/redirection_salin.html
 *.zip
+archi
+*.json
+!/S2/archi/MAG/palin.asm
 web_project/à_faire_page.css
 /algorithm_project/.vscode

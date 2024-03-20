@@ -1,0 +1,22 @@
+div {
+    display:grid;
+    grid-template-columns: 1fr;
+
+} 
+/* responsive de la page d'acceuil */
+
+
+/* pour améliorer l'image de fond
+provient de : https://webdev.iut-orsay.fr/r102/tps/tp6/correction/ */
+
+    /* à faire :
+        -écrire le texte argumentatif sur l'image de fond et mettre une 
+        couleure visible ou mettre le fond noir
+        
+        -factoriser les règles qui se répète
+        -demander à Ash le lien de l'herbergeur et du vérificateur
+        
+        -
+        
+    
+    */
