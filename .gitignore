@@ -11,14 +11,31 @@
 *.obj
 *.exe
 *.csv
-!/data_base_project/modèles/script_SR.txt
-!/data_base_project/modèles/dictionnaire_de_donne.xlsx
-!/data_base_project/capture/SR final.PNG
-!/data_base_project/capture/MCD_final.PNG
-!/web_project/autre/redirection_salin.html
+*.ini
+*.bat
+*.circ
+*.BIN
+*.LST
+*.OBJ
+*.MAD
+*.PAR
+*.TST
+*.BCK
+*.dll
+*.inf
+*.lic
+!/S1/data_base_project/modèles/script_SR.txt
+!/S1/data_base_project/modèles/dictionnaire_de_donne.xlsx
+!/S1/data_base_project/capture/SR final.PNG
+!/S1/data_base_project/capture/MCD_final.PNG
+/S1/web_project/autre/redirection_salin.html
 *.zip
-archi
 *.json
 !/S2/archi/MAG/palin.asm
 web_project/à_faire_page.css
 /algorithm_project/.vscode
+S2/archi/MAG/rachad1.asm
+S2/archi/MAG/rachad2.asm
+S2/archi/MAG/nora.asm
+S2/archi/MAG/essaie.asm
+S2/archi/MAG/essaiebis.asm

@@ -1,0 +1,15 @@
+		LOADDIADRSI
+reco		INCSI
+		LOADADI
+		CMPSIA
+		JMPPZ oui
+		LOADBADRDI
+		LOADAADRSI
+		CMPBA
+		JMPNZ non
+		DECDI
+		JMP reco
+non		LOADA #-1
+		JMP fin
+oui		LOADA #1
+fin 		JMP fin
