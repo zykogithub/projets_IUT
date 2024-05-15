@@ -10,6 +10,7 @@
 *.txt
 *.obj
 *.exe
+*.csv
 !/data_base_project/modèles/script_SR.txt
 !/data_base_project/modèles/dictionnaire_de_donne.xlsx
 !/data_base_project/capture/SR final.PNG
