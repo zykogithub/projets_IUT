@@ -1,4 +1,4 @@
 # projets_IUT
 
-In this repositry, you can find all my project did for my bachelor degrees \
-Dans ce dépôt, vous pouvez trouver tous mes projets effectués durant mon bachelor
+In the future, I will create a README file for every project I made during my bachelor degrees
+And in this README, you will have a redirection to README for each project
