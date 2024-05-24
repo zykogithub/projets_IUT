@@ -16,3 +16,6 @@ AS
     INNER JOIN participation_equipe PC ON pc.idequipe = e.idequipe
     GROUP BY e.noc,e.nomequipe
     ORDER BY nbMedailleOr DESC,nbMedailleArgent DESC,nbMedailleBronze DESC,nbMedaille DESC,e.noc;
+
+SELECT *
+FROM medailles_athletes;
