@@ -1,13 +1,29 @@
-CREATE OR REPLACE VIEW MEDAILLES_ATHLETES
-AS  
-    SELECT pi.idathlete,nomAthlete,prenomAthlete,
-    COUNT(CASE WHEN medaille='Gold' THEN medaille END) AS nbMedailleOr,COUNT(CASE WHEN medaille='Silver' THEN medaille END) AS nbMedailleArgent,
-    COUNT(CASE WHEN medaille='Bronze' THEN medaille END) AS nbMedailleBronze,COUNT(medaille) AS nbMedaille
-    FROM participation_individuelle PI
-    INNER JOIN athlete A ON pi.idathlete = a.idathlete
-    GROUP BY pi.idathlete,nomAthlete,prenomAthlete
-    ORDER BY nbMedailleOr DESC,nbMedailleArgent DESC,nbMedailleBronze DESC,nbMedaille DESC,nomAthlete,prenomAthlete,pi.idathlete;
-CREATE OR REPLACE VIEW MEDAILLES_NOC
+CREATE OR REPLACE  VIEW MEDAILLES_ATHLETES ("IDATHLETE", "NOMATHLETE", "PRENOMATHLETE", "GOLD_MEDALS", "SILVER_MEDALS", "BRONZE_MEDALS", "TOTAL_MEDALS") AS 
+  SELECT 
+    A.IDATHLETE,
+    A.NOMATHLETE,
+    A.PRENOMATHLETE,
+    SUM(CASE WHEN P.MEDAILLE = 'Gold' THEN 1 ELSE 0 END) AS GOLD_MEDALS,
+    SUM(CASE WHEN P.MEDAILLE = 'Silver' THEN 1 ELSE 0 END) AS SILVER_MEDALS,
+    SUM(CASE WHEN P.MEDAILLE = 'Bronze' THEN 1 ELSE 0 END) AS BRONZE_MEDALS,
+    COUNT(P.MEDAILLE) AS TOTAL_MEDALS
+FROM 
+    ATHLETE A
+INNER JOIN
+    (
+        SELECT IDATHLETE, MEDAILLE FROM PARTICIPATION_INDIVIDUELLE
+        UNION ALL
+        SELECT A.IDATHLETE, PE.MEDAILLE 
+        FROM PARTICIPATION_EQUIPE PE
+        JOIN COMPOSITION_EQUIPE CE ON PE.IDEQUIPE = CE.IDEQUIPE
+        JOIN ATHLETE A ON CE.IDATHLETE = A.IDATHLETE
+    ) P ON A.IDATHLETE = P.IDATHLETE
+GROUP BY 
+    A.IDATHLETE, A.NOMATHLETE, A.PRENOMATHLETE
+ORDER BY 
+    GOLD_MEDALS DESC, SILVER_MEDALS DESC, BRONZE_MEDALS DESC, TOTAL_MEDALS DESC, 
+    A.NOMATHLETE, A.PRENOMATHLETE, A.IDATHLETE
+;CREATE OR REPLACE VIEW MEDAILLES_NOC
 AS
     SELECT  e.noc,e.nomequipe,
     COUNT(CASE WHEN medaille='Gold' THEN medaille END) AS nbMedailleOr,COUNT(CASE WHEN medaille='Silver' THEN medaille END) AS nbMedailleArgent,
@@ -16,6 +32,3 @@ AS
     INNER JOIN participation_equipe PC ON pc.idequipe = e.idequipe
     GROUP BY e.noc,e.nomequipe
     ORDER BY nbMedailleOr DESC,nbMedailleArgent DESC,nbMedailleBronze DESC,nbMedaille DESC,e.noc;
-
-SELECT *
-FROM medailles_athletes;
