@@ -1,13 +1,13 @@
 SET SERVEROUTPUT ON;
 
-CREATE TABLE LOG (
-    IDAUTEUR NUMBER,
-    ACTION VARCHAR2(4000),
-    DATEHEUREACTION DATE,
-    LIGNEAVANT VARCHAR2(4000),
-    LIGNEAPRES VARCHAR2(4000),
-    PRIMARY KEY (IDAUTEUR, DATEHEUREACTION)
-);
+--CREATE TABLE LOG (
+--    IDLOG NUMBER(6) PRIMARY KEY NOT NULL,
+    --IDAUTEUR VARCHAR2(50),
+  --  ACTION VARCHAR2(4000),
+   -- DATEHEUREACTION DATE,
+   -- LIGNEAVANT VARCHAR2(4000),
+   -- LIGNEAPRES VARCHAR2(4000)
+--);
 
 --DROP TABLE log;
 
@@ -17,6 +17,7 @@ BEGIN
     IF UPDATING THEN
         IF :OLD.IDATHLETE != :NEW.IDATHLETE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updattin',
                 SYSDATE,
@@ -25,6 +26,7 @@ BEGIN
             );
         ELSIF :OLD.NOMATHLETE != :NEW.NOMATHLETE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updattin',
                 SYSDATE,
@@ -33,6 +35,7 @@ BEGIN
             );
         ELSIF :OLD.PRENOMATHLETE != :NEW.PRENOMATHLETE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updattin',
                 SYSDATE,
@@ -41,6 +44,7 @@ BEGIN
             );
         ELSIF :OLD.SURNOM != :NEW.SURNOM THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updattin',
                 SYSDATE,
@@ -49,6 +53,7 @@ BEGIN
             );
         ELSIF :OLD.GENRE != :NEW.GENRE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updattin',
                 SYSDATE,
@@ -57,6 +62,7 @@ BEGIN
             );
         ELSIF :OLD.DATENAISSANCE != :NEW.DATENAISSANCE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updattin',
                 SYSDATE,
@@ -65,6 +71,7 @@ BEGIN
             );
         ELSIF :OLD.DATEDECES != :NEW.DATEDECES THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updattin',
                 SYSDATE,
@@ -73,14 +80,16 @@ BEGIN
             );
         ELSIF :OLD.TAILLE != :NEW.TAILLE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updattin',
                 SYSDATE,
                 :OLD.TAILLE,
                 :NEW.TAILLE
             );
-        ELSIF :OLD.POIDS != :NEW.POIDS THEN
+        ELSE 
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updattin',
                 SYSDATE,
@@ -91,6 +100,7 @@ BEGIN
     ELSIF DELETING THEN
         IF :OLD.IDATHLETE != :NEW.IDATHLETE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -99,6 +109,7 @@ BEGIN
             );
         ELSIF :OLD.NOMATHLETE != :NEW.NOMATHLETE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -107,6 +118,7 @@ BEGIN
             );
         ELSIF :OLD.PRENOMATHLETE != :NEW.PRENOMATHLETE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -115,6 +127,7 @@ BEGIN
             );
         ELSIF :OLD.SURNOM != :NEW.SURNOM THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -123,6 +136,7 @@ BEGIN
             );
         ELSIF :OLD.GENRE != :NEW.GENRE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -131,6 +145,7 @@ BEGIN
             );
         ELSIF :OLD.DATENAISSANCE != :NEW.DATENAISSANCE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -139,6 +154,7 @@ BEGIN
             );
         ELSIF :OLD.DATEDECES != :NEW.DATEDECES THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -147,14 +163,16 @@ BEGIN
             );
         ELSIF :OLD.TAILLE != :NEW.TAILLE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
                 :OLD.TAILLE,
                 :NEW.TAILLE
             );
-        ELSIF :OLD.POIDS != :NEW.POIDS THEN
+        ELSE
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -172,6 +190,7 @@ BEGIN
     IF UPDATING THEN
         IF :OLD.CODESPORT != :NEW.CODESPORT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updattin',
                 SYSDATE,
@@ -180,6 +199,7 @@ BEGIN
             );
         ELSIF :OLD.NOMSPORT != :NEW.NOMSPORT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updattin',
                 SYSDATE,
@@ -190,6 +210,7 @@ BEGIN
     ELSIF DELETING THEN
         IF :OLD.CODESPORT != :NEW.CODESPORT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -198,6 +219,7 @@ BEGIN
             );
         ELSIF :OLD.NOMSPORT != :NEW.NOMSPORT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -215,6 +237,7 @@ BEGIN
     IF UPDATING THEN
         IF :OLD.CODEDISCIPLINE != :NEW.CODEDISCIPLINE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -223,6 +246,7 @@ BEGIN
             );
         ELSIF :OLD.NOMDISCIPLINE != :NEW.NOMDISCIPLINE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -231,6 +255,7 @@ BEGIN
             );
         ELSIF :OLD.CODESPORT != :NEW.CODESPORT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -241,6 +266,7 @@ BEGIN
     ELSIF DELETING THEN
         IF :OLD.CODEDISCIPLINE != :NEW.CODEDISCIPLINE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -249,6 +275,7 @@ BEGIN
             );
         ELSIF :OLD.NOMDISCIPLINE != :NEW.NOMDISCIPLINE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -257,6 +284,7 @@ BEGIN
             );
         ELSIF :OLD.CODESPORT != :NEW.CODESPORT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -274,6 +302,7 @@ BEGIN
     IF UPDATING THEN
         IF :OLD.IDEQUIPE != :NEW.IDEQUIPE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -282,6 +311,7 @@ BEGIN
             );
         ELSIF :OLD.NOMEQUIPE != :NEW.NOMEQUIPE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -290,6 +320,7 @@ BEGIN
             );
         ELSIF :OLD.NOC != :NEW.NOC THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -300,6 +331,7 @@ BEGIN
     ELSIF DELETING THEN
         IF :OLD.IDEQUIPE != :NEW.IDEQUIPE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -308,6 +340,7 @@ BEGIN
             );
         ELSIF :OLD.NOMEQUIPE != :NEW.NOMEQUIPE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -316,6 +349,7 @@ BEGIN
             );
         ELSIF :OLD.NOC != :NEW.NOC THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -333,6 +367,7 @@ BEGIN
     IF UPDATING THEN
         IF :OLD.IDEVENEMENT != :NEW.IDEVENEMENT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -341,6 +376,7 @@ BEGIN
             );
         ELSIF :OLD.IDEQUIPE != :NEW.IDEQUIPE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -349,6 +385,7 @@ BEGIN
             );
         ELSIF :OLD.RESULTAT != :NEW.RESULTAT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -357,6 +394,7 @@ BEGIN
             );
         ELSIF :OLD.MEDAILLE != :NEW.MEDAILLE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -367,6 +405,7 @@ BEGIN
     ELSIF DELETING THEN
         IF :OLD.IDEVENEMENT != :NEW.IDEVENEMENT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -375,6 +414,7 @@ BEGIN
             );
         ELSIF :OLD.IDEQUIPE != :NEW.IDEQUIPE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -383,6 +423,7 @@ BEGIN
             );
         ELSIF :OLD.RESULTAT != :NEW.RESULTAT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -391,6 +432,7 @@ BEGIN
             );
         ELSIF :OLD.MEDAILLE != :NEW.MEDAILLE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -408,6 +450,7 @@ BEGIN
     IF UPDATING THEN
         IF :OLD.IDATHLETE != :NEW.IDATHLETE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -416,6 +459,7 @@ BEGIN
             );
         ELSIF :OLD.IDEVENT != :NEW.IDEVENT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -424,6 +468,7 @@ BEGIN
             );
         ELSIF :OLD.RESULTAT != :NEW.RESULTAT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -432,6 +477,7 @@ BEGIN
             );
         ELSIF :OLD.NOC != :NEW.NOC THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -440,6 +486,7 @@ BEGIN
             );
         ELSIF :OLD.MEDAILLE != :NEW.MEDAILLE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -450,6 +497,7 @@ BEGIN
     ELSIF DELETING THEN
         IF :OLD.IDATHLETE != :NEW.IDATHLETE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -458,6 +506,7 @@ BEGIN
             );
         ELSIF :OLD.IDEVENT != :NEW.IDEVENT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -466,6 +515,7 @@ BEGIN
             );
         ELSIF :OLD.RESULTAT != :NEW.RESULTAT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -474,6 +524,7 @@ BEGIN
             );
         ELSIF :OLD.NOC != :NEW.NOC THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -482,6 +533,7 @@ BEGIN
             );
         ELSIF :OLD.MEDAILLE != :NEW.MEDAILLE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -499,6 +551,7 @@ BEGIN
     IF UPDATING THEN
         IF :OLD.IDEVENEMENT != :NEW.IDEVENEMENT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -507,6 +560,7 @@ BEGIN
             );
         ELSIF :OLD.NOMEVENEMENT != :NEW.NOMEVENEMENT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -515,6 +569,7 @@ BEGIN
             );
         ELSIF :OLD.STATUTEVENEMENT != :NEW.STATUTEVENEMENT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -523,6 +578,7 @@ BEGIN
             );
         ELSIF :OLD.CODEDISCIPLINE != :NEW.CODEDISCIPLINE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -531,6 +587,7 @@ BEGIN
             );
         ELSIF :OLD.IDHOTE != :NEW.IDHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -541,6 +598,7 @@ BEGIN
     ELSIF DELETING THEN
         IF :OLD.IDEVENEMENT != :NEW.IDEVENEMENT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -549,6 +607,7 @@ BEGIN
             );
         ELSIF :OLD.NOMEVENEMENT != :NEW.NOMEVENEMENT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -557,6 +616,7 @@ BEGIN
             );
         ELSIF :OLD.STATUTEVENEMENT != :NEW.STATUTEVENEMENT THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -565,6 +625,7 @@ BEGIN
             );
         ELSIF :OLD.CODEDISCIPLINE != :NEW.CODEDISCIPLINE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -573,6 +634,7 @@ BEGIN
             );
         ELSIF :OLD.IDHOTE != :NEW.IDHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -590,6 +652,7 @@ BEGIN
     IF UPDATING THEN
         IF :OLD.CODENOC != :NEW.CODENOC THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -598,6 +661,7 @@ BEGIN
             );
         ELSIF :OLD.NOMNOC != :NEW.NOMNOC THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -608,6 +672,7 @@ BEGIN
     ELSIF DELETING THEN
         IF :OLD.CODENOC != :NEW.CODENOC THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -616,6 +681,7 @@ BEGIN
             );
         ELSIF :OLD.NOMNOC != :NEW.NOMNOC THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -633,6 +699,7 @@ BEGIN
     IF UPDATING THEN
         IF :OLD.IDHOTE != :NEW.IDHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -641,6 +708,7 @@ BEGIN
             );
         ELSIF :OLD.NUMEROHOTE != :NEW.NUMEROHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -649,6 +717,7 @@ BEGIN
             );
         ELSIF :OLD.LIBELLEHOTE != :NEW.LIBELLEHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -657,6 +726,7 @@ BEGIN
             );
         ELSIF :OLD.ANNEEHOTE != :NEW.ANNEEHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -665,6 +735,7 @@ BEGIN
             );
         ELSIF :OLD.SAISON != :NEW.SAISON THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -673,6 +744,7 @@ BEGIN
             );
         ELSIF :OLD.VILLEHOTE != :NEW.VILLEHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -681,6 +753,7 @@ BEGIN
             );
         ELSIF :OLD.CODENOCHOTE != :NEW.CODENOCHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -689,6 +762,7 @@ BEGIN
             );
         ELSIF :OLD.DATEOUVERTURE != :NEW.DATEOUVERTURE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -697,6 +771,7 @@ BEGIN
             );
         ELSIF :OLD.DATEFERMETURE != :NEW.DATEFERMETURE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -705,6 +780,7 @@ BEGIN
             );
         ELSIF :OLD.DATESCOMPETITION != :NEW.DATESCOMPETITION THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -713,6 +789,7 @@ BEGIN
             );
         ELSIF :OLD.NOTES != :NEW.NOTES THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -723,6 +800,7 @@ BEGIN
     ELSIF DELETING THEN
         IF :OLD.IDHOTE != :NEW.IDHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -731,6 +809,7 @@ BEGIN
             );
         ELSIF :OLD.NUMEROHOTE != :NEW.NUMEROHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -739,6 +818,7 @@ BEGIN
             );
         ELSIF :OLD.LIBELLEHOTE != :NEW.LIBELLEHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -747,6 +827,7 @@ BEGIN
             );
         ELSIF :OLD.ANNEEHOTE != :NEW.ANNEEHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -755,6 +836,7 @@ BEGIN
             );
         ELSIF :OLD.SAISON != :NEW.SAISON THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -763,6 +845,7 @@ BEGIN
             );
         ELSIF :OLD.VILLEHOTE != :NEW.VILLEHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -771,6 +854,7 @@ BEGIN
             );
         ELSIF :OLD.CODENOCHOTE != :NEW.CODENOCHOTE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -779,6 +863,7 @@ BEGIN
             );
         ELSIF :OLD.DATEOUVERTURE != :NEW.DATEOUVERTURE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -787,6 +872,7 @@ BEGIN
             );
         ELSIF :OLD.DATEFERMETURE != :NEW.DATEFERMETURE THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -795,6 +881,7 @@ BEGIN
             );
         ELSIF :OLD.DATESCOMPETITION != :NEW.DATESCOMPETITION THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -803,6 +890,7 @@ BEGIN
             );
         ELSIF :OLD.NOTES != :NEW.NOTES THEN
             INSERT INTO LOG VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Deleting',
                 SYSDATE,
@@ -814,12 +902,15 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE TRIGGER TRIGGERECOMPOSITIONEQUIPE BEFORE
-    UPDATE OR DELETE ON COMPOSITION_EQUIPE FOR EACH ROW
+CREATE OR REPLACE TRIGGER TRIGGERECOMPOSITIONEQUIPE
+BEFORE UPDATE OR DELETE ON COMPOSITION_EQUIPE
+FOR EACH ROW
 BEGIN
     IF UPDATING THEN
         IF :OLD.IDEQUIPE != :NEW.IDEQUIPE THEN
-            INSERT INTO LOG VALUES (
+            INSERT INTO LOG (IDLOG, IDAUTEUR, ACTION, DATEHEUREACTION, LIGNEAVANT, LIGNEAPRES)
+            VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -827,7 +918,9 @@ BEGIN
                 :NEW.IDEQUIPE
             );
         ELSIF :OLD.IDATHLETE != :NEW.IDATHLETE THEN
-            INSERT INTO LOG VALUES (
+            INSERT INTO LOG (IDLOG, IDAUTEUR, ACTION, DATEHEUREACTION, LIGNEAVANT, LIGNEAPRES)
+            VALUES (
+                SELECT MAX(IDLOG)+1,
                 USER,
                 'Updating',
                 SYSDATE,
@@ -836,22 +929,25 @@ BEGIN
             );
         END IF;
     ELSIF DELETING THEN
-        IF :OLD.IDEQUIPE != :NEW.IDEQUIPE THEN
-            INSERT INTO LOG VALUES (
-                USER,
-                'Deleting',
-                SYSDATE,
-                :OLD.IDEQUIPE,
-                :NEW.IDEQUIPE
-            );
-        ELSIF :OLD.IDATHLETE != :NEW.IDATHLETE THEN
-            INSERT INTO LOG VALUES (
-                USER,
-                'Deleting',
-                SYSDATE,
-                :OLD.IDATHLETE,
-                :NEW.IDATHLETE
-            );
-        END IF;
+        INSERT INTO LOG (IDLOG, IDAUTEUR, ACTION, DATEHEUREACTION, LIGNEAVANT, LIGNEAPRES)
+        VALUES (
+            SELECT MAX(IDLOG)+1,
+            USER,
+            'Deleting',
+            SYSDATE,
+            :OLD.IDEQUIPE,
+            NULL -- Pour les suppressions, il n'y a pas de :NEW valeurs
+        );
+
+        INSERT INTO LOG (IDLOG, IDAUTEUR, ACTION, DATEHEUREACTION, LIGNEAVANT, LIGNEAPRES)
+        VALUES (
+            SELECT MAX(IDLOG)+1,
+            USER,
+            'Deleting',
+            SYSDATE,
+            :OLD.IDATHLETE,
+            NULL -- Pour les suppressions, il n'y a pas de :NEW valeurs
+        );
     END IF;
 END;
+/
