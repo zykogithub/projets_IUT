@@ -24,11 +24,16 @@ GRANT SELECT ON MEDAILLES_NOC TO ANALYSEJO;
 
 GRANT SELECT ON MEDAILLES_ATHLETES TO GESTIONJO;
 
+GRANT SELECT ON MEDAILLES_NOC TO GESTIONJO;
+
 GRANT EXECUTE ON BIOGRAPHIE TO ANALYSEJO;
 
 GRANT EXECUTE ON RESULTATS TO ANALYSEJO;
 
---ne pas oublier : Donner acc�s en consultation aux vues et en ex�cution � vos proc�dures/fonctions stock�es si elles ne modifient pas la base pour AnalyseJO.
+GRANT EXECUTE ON ajouter_resultat_individuel TO ANALYSEJO;
+
+GRANT EXECUTE ON ajouter_resultat_equipe TO ANALYSEJO;
+
 GRANT SELECT, UPDATE, INSERT, DELETE ON ATHLETE TO GESTIONJO;
 
 GRANT SELECT, UPDATE, INSERT, DELETE ON COMPOSITION_EQUIPE TO GESTIONJO;
@@ -57,4 +62,6 @@ GRANT EXECUTE,DEBUG ON BIOGRAPHIE TO GESTIONJO;
 
 GRANT EXECUTE,DEBUG ON RESULTATS TO GESTIONJO;
 
---Il aura en revanche acc�s � toutes les fonctions/proc�dures qui permettent de consulter ou modifier la base.
+GRANT EXECUTE ON ajouter_resultat_individuel TO GESTIONJO;
+
+GRANT EXECUTE ON ajouter_resultat_equipe TO GESTIONJO;

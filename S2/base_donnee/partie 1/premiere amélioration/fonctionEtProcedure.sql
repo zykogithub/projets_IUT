@@ -7,10 +7,10 @@ CREATE OR REPLACE FUNCTION BIOGRAPHIE(
     VARRETOUR    JSON_OBJECT_T;
 BEGIN
     SELECT
-        JSON_OBJECT( 'nom' VALUE A.NOMATHLETE, 'prenom' VALUE A.PRENOMATHLETE, 'surnom' VALUE SURNOM, 'genre' VALUE GENRE, 'dateNaissance' VALUE TO_CHAR(DATENAISSANCE, 'yyyy-mm-dd'), 'dateDeces' VALUE TO_CHAR(DATEDECES), 'taille' VALUE TAILLE, 'poids' VALUE POIDS, 'medaillesOr' VALUE MA.MEDAILLES_D_OR, 'medaillesArgent' VALUE MA.MEDAILLES_D_ARGENT, 'medaillesBronze' VALUE MA.MEDAILLES_BRONZE, 'medailles' VALUE MA.TOTAL_MEDAILLES ) INTO CHAINERETOUR
+        JSON_OBJECT( 'nom' VALUE A.NOMATHLETE, 'prenom' VALUE A.PRENOMATHLETE, 'surnom' VALUE SURNOM, 'genre' VALUE GENRE, 'dateNaissance' VALUE TO_CHAR(DATENAISSANCE, 'yyyy-mm-dd'), 'dateDeces' VALUE TO_CHAR(DATEDECES), 'taille' VALUE TAILLE, 'poids' VALUE POIDS, 'medaillesOr' VALUE MA.MEDAILLES_D_OR, 'medaillesArgent' VALUE MA.MEDAILLES_D_ARGENT, 'medaillesBronze' VALUE ma.MEDAILLES_DE_BRONZE, 'medailles' VALUE MA.TOTAL_MEDAILLES ) INTO CHAINERETOUR
     FROM
         ATHLETE A
-        INNER JOIN medailles_ath
+        INNER JOIN MEDAILLES_ATHLETES MA ON ma.IDATHLETE = a.IDATHLETE
     WHERE
         A.IDATHLETE = ID_ATHLETE;
     RETURN CHAINERETOUR;
@@ -94,37 +94,39 @@ BEGIN
 
 END;
 /
-EXECUTE DBMS_OUTPUT.put_line(BIOGRAPHIE(124));
+
 --TODO reprendre la fonction du tout début en précisant ce que c'est la position 
-CREATE OR REPLACE PROCEDURE ajouter_resultat_individuel(id_evenement, id_athlete, code_noc, resultat)
+CREATE OR REPLACE PROCEDURE ajouter_resultat_individuel(
+    id_evenement EVENEMENT.IDEVENEMENT%TYPE,
+    id_athlete ATHLETE.IDATHLETE%TYPE,
+    code_noc NOC.CODENOC%TYPE, 
+    resultat PARTICIPATION_INDIVIDUELLE.RESULTAT%TYPE)
 AS
     idEvenementComparaison EVENEMENT.IDEVENEMENT%TYPE;
     idAthleteComparaison ATHLETE.IDATHLETE%TYPE;
     nocComparaison NOC.CODENOC%TYPE;
-    resultatMedaille MEDAILLES_ATHLETES%TYPE;
+    resultatMedaille PARTICIPATION_INDIVIDUELLE.RESULTAT%TYPE;
     nbReponse NUMBER;
 BEGIN
-    SELECT IDEVENEMENT,IDATHLETE,NOC INTO idEvenementComparaison,idAthleteComparaison,nocComparaison
-    FROM EQUIPE E
-    INNER JOIN PARTICIPATION_EQUIPE P
-    E ON E.IDEQUIPE=pe.IDEQUIPE
-    INNER JOIN COMPOSITION_EQUIPE CO ON e.IDEQUIPE = CO.IDEQUIPE
-    WHERE CO.IDATHLETE=idAthleteComparaison AND e.NOC=nocComparaison AND PE.IDEVENEMENT=idEvenementComparaison;
+    SELECT P.IDEVENT,a.IDATHLETE,NOC INTO idEvenementComparaison,idAthleteComparaison,nocComparaison
+    FROM ATHLETE A
+    INNER JOIN PARTICIPATION_INDIVIDUELLE P ON a.IDATHLETE=p.IDATHLETE
+    WHERE a.IDATHLETE=idAthleteComparaison AND p.NOC=nocComparaison AND p.IDEVENT=idEvenementComparaison;
     IF idEvenementComparaison IS NULL OR idAthleteComparaison IS NULL OR nocComparaison IS NULL THEN
         RAISE_APPLICATION_ERROR(-200001,'Athlète inexistant" (ou "Événement inexistant" ou "NOC inexistant');
     ELSE
         SELECT COUNT(*) INTO nbReponse
         FROM PARTICIPATION_INDIVIDUELLE
-        WHERE idAthlete = id_athlete AND idevenement = id_evenement
+        WHERE idAthlete = id_athlete AND IDEVENT = id_evenement;
         IF nbReponse > 0 THEN  
-            RAISE_APPLICATION_ERROR(-20002,"Il y a deja une participation à l'événement pour cet athlte");
+            RAISE_APPLICATION_ERROR(-20002,'Il y a deja une participation à l événement pour cet athltete');
         END IF;
     END IF;
     SELECT COUNT(NOC) INTO nbReponse
     FROM PARTICIPATION_INDIVIDUELLE PI
-    WHERE pi.NOC=noc
+    WHERE pi.NOC=noc;
     IF nbReponse=0 THEN
-        RAISE_APPLICATION_ERROR(-20003,"NOC incoherant")
+        RAISE_APPLICATION_ERROR(-20003,'NOC incoherant');
     END IF;
 
     -- TODO : condition pour :
@@ -134,44 +136,47 @@ BEGIN
     --      on rejettera une participation sous une autre bannière.
     SELECT COUNT(NOC) INTO nbReponse
     FROM PARTICIPATION_INDIVIDUELLE PI
-    WHERE pi.resultat=resultat
+    WHERE pi.resultat=resultat;
     IF nbReponse=1 THEN 
-        RAISE_APPLICATION_ERROR(-20004,"NOC incoherant")
+        RAISE_APPLICATION_ERROR(-20004,'résultat incoherant');
     END IF;
-    IF resultat="1" OR resultat="=1" THEN 
-        resultatMedaille:="Gold";
-    ELSIF resultat="2" OR resultat="=2" THEN 
-        resultatMedaille:="Silver";
-    ELSIF resultat="3" OR resultat="=3" THEN 
-        resultatMedaille:="Bronze";
+    IF resultat='1' OR resultat='=1' THEN 
+        resultatMedaille:='Gold';
+    ELSIF resultat='2' OR resultat='=2' THEN 
+        resultatMedaille:='Silver';
+    ELSIF resultat='3' OR resultat='=3' THEN 
+        resultatMedaille:='Bronze';
     END IF;
     -- TODO : Enfin, on se servira du résultat pour déterminer 
     -- la médaille obtenue si l'événement est Olympic ou Intercalated
 
 END;
 /
-CREATE OR REPLACE PROCEDURE ajouter_resultat_equipe(id_evenement, id_equipe, code_noc, resultat)
+CREATE OR REPLACE PROCEDURE ajouter_resultat_equipe(
+    id_evenement EVENEMENT.IDEVENEMENT%TYPE,
+    id_equipe EQUIPE.IDEQUIPE%TYPE,
+    code_noc noc.CODENOC%TYPE,
+    resultat PARTICIPATION_EQUIPE.RESULTAT%TYPE)
 AS
     idEvenementComparaison EVENEMENT.IDEVENEMENT%TYPE;
-    idEquipeComparaison EQUIPE.IDATHLETE%TYPE;
+    idEquipeComparaison EQUIPE.IDEQUIPE%TYPE;
     nocComparaison NOC.CODENOC%TYPE;
-    resultatMedaille MEDAILLES_ATHLETES%TYPE;
+    resultatMedaille PARTICIPATION_EQUIPE.RESULTAT%TYPE;
     nbReponse NUMBER;
 BEGIN
-    SELECT P.IDEVENEMENT,E.IDEQUIPE,E.NOC INTO idEvenementComparaison,idAthleteComparaison,nocComparaison
+    SELECT P.IDEVENEMENT,E.IDEQUIPE,E.NOC INTO idEvenementComparaison,idEquipeComparaison,nocComparaison
     FROM EQUIPE E
-    INNER JOIN PARTICIPATION_EQUIPE P
-    E ON E.IDEQUIPE=pe.IDEQUIPE
+    INNER JOIN PARTICIPATION_EQUIPE P ON E.IDEQUIPE=p.IDEQUIPE
     INNER JOIN COMPOSITION_EQUIPE CO ON e.IDEQUIPE = CO.IDEQUIPE
-    WHERE CO.IDATHLETE=idAthleteComparaison AND e.NOC=nocComparaison AND PE.IDEVENEMENT=idEvenementComparaison;
-    IF idEvenementComparaison IS NULL OR idAthleteComparaison IS NULL OR nocComparaison IS NULL THEN
+    WHERE CO.IDATHLETE=idEquipeComparaison AND e.NOC=nocComparaison AND p.IDEVENEMENT=idEvenementComparaison;
+    IF idEvenementComparaison IS NULL OR idEquipeComparaison IS NULL OR nocComparaison IS NULL THEN
         RAISE_APPLICATION_ERROR(-200001,'Equipe inexistant" (ou "Événement inexistant');
     ELSE
         SELECT COUNT(*) INTO nbReponse
-        FROM PARTICIPATION_INDIVIDUELLE
-        WHERE idAthlete = id_athlete AND idevenement = id_evenement
+        FROM PARTICIPATION_INDIVIDUELLE PI
+        WHERE idAthlete = id_equipe AND pi.IDEVENT = id_evenement;
         IF nbReponse > 0 THEN  
-            RAISE_APPLICATION_ERROR(-20002,"Équipe déjà classée");
+            RAISE_APPLICATION_ERROR(-20002,'Équipe déjà classée');
         END IF;
     END IF;
 
@@ -182,16 +187,16 @@ BEGIN
     --      on rejettera une participation sous une autre bannière.
     SELECT COUNT(NOC) INTO nbReponse
     FROM PARTICIPATION_INDIVIDUELLE PI
-    WHERE pi.resultat=resultat
+    WHERE pi.resultat=resultat;
     IF nbReponse=1 THEN 
-        RAISE_APPLICATION_ERROR(-20003,"Position déjà occupée")
+        RAISE_APPLICATION_ERROR(-20003,'Position déjà occupée');
     END IF;
-    IF resultat="1" OR resultat="=1" THEN 
-        resultatMedaille:="Gold";
-    ELSIF resultat="2" OR resultat="=2" THEN 
-        resultatMedaille:="Silver";
-    ELSIF resultat="3" OR resultat="=3" THEN 
-        resultatMedaille:="Bronze";
+    IF resultat='1' OR resultat='=1' THEN 
+        resultatMedaille:='Gold';
+    ELSIF resultat='2' OR resultat='=2' THEN 
+        resultatMedaille:='Silver';
+    ELSIF resultat='3' OR resultat='=3' THEN 
+        resultatMedaille:='Bronze';
     END IF;
     -- TODO : Enfin, on se servira du résultat pour déterminer 
     -- la médaille obtenue si l'événement est Olympic ou Intercalated

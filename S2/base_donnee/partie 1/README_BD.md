@@ -1,3 +1,22 @@
+##### MOHAMED DAROUECHE Naherry          | 2023-2024        Groupe 2D
+# Projet S204
+
+- [Projet S204](#projet-s204)
+  - [Premiere partie](#premiere-partie)
+    - [Déclencheur](#déclencheur)
+    - [fonction et procédures](#fonction-et-procédures)
+    - [vues](#vues)
+    - [privilege](#privilege)
+  - [deuxième partie](#deuxième-partie)
+    - [modification table](#modification-table)
+    - [script d'insertion](#script-dinsertion)
+    - [script d'insetion](#script-dinsetion)
+
+## Premiere partie
+
+### Déclencheur
+
+```sql
 SET SERVEROUTPUT ON;
 
 CREATE TABLE LOG (
@@ -519,3 +538,393 @@ BEGIN
         VALUES (USER, 'Inserting', SYSTIMESTAMP, NULL, :NEW.CODENOC);
     END IF;
 END;
+
+```
+
+### fonction et procédures
+
+```sql
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE FUNCTION BIOGRAPHIE(
+    ID_ATHLETE NUMBER
+) RETURN CLOB AS
+    CHAINERETOUR CLOB;
+    VARRETOUR    JSON_OBJECT_T;
+BEGIN
+    SELECT
+        JSON_OBJECT( 'nom' VALUE A.NOMATHLETE, 'prenom' VALUE A.PRENOMATHLETE, 'surnom' VALUE SURNOM, 'genre' VALUE GENRE, 'dateNaissance' VALUE TO_CHAR(DATENAISSANCE, 'yyyy-mm-dd'), 'dateDeces' VALUE TO_CHAR(DATEDECES), 'taille' VALUE TAILLE, 'poids' VALUE POIDS, 'medaillesOr' VALUE MA.MEDAILLES_D_OR, 'medaillesArgent' VALUE MA.MEDAILLES_D_ARGENT, 'medaillesBronze' VALUE ma.MEDAILLES_DE_BRONZE, 'medailles' VALUE MA.TOTAL_MEDAILLES ) INTO CHAINERETOUR
+    FROM
+        ATHLETE A
+        INNER JOIN MEDAILLES_ATHLETES MA ON ma.IDATHLETE = a.IDATHLETE
+    WHERE
+        A.IDATHLETE = ID_ATHLETE;
+    RETURN CHAINERETOUR;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20011, 'Athlete inconnu');
+END BIOGRAPHIE;
+/
+
+CREATE OR REPLACE FUNCTION resultats(
+    p_event_id NUMBER
+) RETURN CLOB
+IS
+    l_json CLOB;
+    l_event_count INTEGER;
+    l_is_individual BOOLEAN := FALSE;
+BEGIN
+    -- Vérifier si l'événement existe et déterminer s'il est individuel ou collectif
+    SELECT COUNT(*)
+    INTO l_event_count
+    FROM (
+        SELECT 1 FROM PARTICIPATION_INDIVIDUELLE WHERE idevent = p_event_id
+        UNION ALL
+        SELECT 1 FROM PARTICIPATION_EQUIPE WHERE idevenement = p_event_id
+    );
+
+    IF l_event_count = 0 THEN
+        RAISE_APPLICATION_ERROR(-20012, 'Événement non trouvé');
+    END IF;
+
+    -- Déterminer si c'est un événement individuel
+    SELECT COUNT(*)
+    INTO l_event_count
+    FROM PARTICIPATION_INDIVIDUELLE
+    WHERE idevent = p_event_id;
+
+    IF l_event_count > 0 THEN
+        l_is_individual := TRUE;
+    END IF;
+
+    -- Construire l'objet JSON en fonction du type d'événement
+    IF l_is_individual THEN
+        SELECT JSON_OBJECT(
+                    'résultats' VALUE JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            'position' VALUE pi.resultat,
+                            'athlète(s)' VALUE a.prenomathlete || ' ' || a.nomathlete,
+                            'noc' VALUE pi.noc,
+                            'médaille' VALUE pi.medaille
+                        )
+                    )
+               ) INTO l_json
+        FROM ATHLETE a
+        JOIN PARTICIPATION_INDIVIDUELLE pi ON a.idathlete = pi.idathlete
+        WHERE pi.idevent = p_event_id;
+    ELSE
+        SELECT JSON_OBJECT(
+                    'résultats' VALUE JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            'position' VALUE pe.resultat,
+                            'athlète(s)' VALUE (
+                                SELECT LISTAGG(a.prenomathlete || ' ' || a.nomathlete, ', ') WITHIN GROUP (ORDER BY a.nomathlete)
+                                FROM ATHLETE a
+                                JOIN PARTICIPATION_INDIVIDUELLE pi ON a.idathlete = pi.idathlete
+                                WHERE pi.idevent = p_event_id
+                            ),
+                            'noc' VALUE (
+                                SELECT LISTAGG(DISTINCT pi.noc, ', ') WITHIN GROUP (ORDER BY pi.noc)
+                                FROM PARTICIPATION_INDIVIDUELLE pi
+                                WHERE pi.idevent = p_event_id
+                            ),
+                            'médaille' VALUE pe.medaille
+                        )
+                    )
+               ) INTO l_json
+        FROM PARTICIPATION_EQUIPE pe
+        WHERE pe.idevenement = p_event_id;
+    END IF;
+
+    RETURN l_json;
+
+END;
+/
+
+--TODO reprendre la fonction du tout début en précisant ce que c'est la position 
+CREATE OR REPLACE PROCEDURE ajouter_resultat_individuel(
+    id_evenement EVENEMENT.IDEVENEMENT%TYPE,
+    id_athlete ATHLETE.IDATHLETE%TYPE,
+    code_noc NOC.CODENOC%TYPE, 
+    resultat PARTICIPATION_INDIVIDUELLE.RESULTAT%TYPE)
+AS
+    idEvenementComparaison EVENEMENT.IDEVENEMENT%TYPE;
+    idAthleteComparaison ATHLETE.IDATHLETE%TYPE;
+    nocComparaison NOC.CODENOC%TYPE;
+    resultatMedaille PARTICIPATION_INDIVIDUELLE.RESULTAT%TYPE;
+    nbReponse NUMBER;
+BEGIN
+    SELECT P.IDEVENT,a.IDATHLETE,NOC INTO idEvenementComparaison,idAthleteComparaison,nocComparaison
+    FROM ATHLETE A
+    INNER JOIN PARTICIPATION_INDIVIDUELLE P ON a.IDATHLETE=p.IDATHLETE
+    WHERE a.IDATHLETE=idAthleteComparaison AND p.NOC=nocComparaison AND p.IDEVENT=idEvenementComparaison;
+    IF idEvenementComparaison IS NULL OR idAthleteComparaison IS NULL OR nocComparaison IS NULL THEN
+        RAISE_APPLICATION_ERROR(-200001,'Athlète inexistant" (ou "Événement inexistant" ou "NOC inexistant');
+    ELSE
+        SELECT COUNT(*) INTO nbReponse
+        FROM PARTICIPATION_INDIVIDUELLE
+        WHERE idAthlete = id_athlete AND IDEVENT = id_evenement;
+        IF nbReponse > 0 THEN  
+            RAISE_APPLICATION_ERROR(-20002,'Il y a deja une participation à l événement pour cet athltete');
+        END IF;
+    END IF;
+    SELECT COUNT(NOC) INTO nbReponse
+    FROM PARTICIPATION_INDIVIDUELLE PI
+    WHERE pi.NOC=noc;
+    IF nbReponse=0 THEN
+        RAISE_APPLICATION_ERROR(-20003,'NOC incoherant');
+    END IF;
+
+    -- TODO : condition pour :
+    --      - un athlète a déjà un résultat pour cet événement, on rejettera aussi
+    --      - un athlète a déjà participé (on ne regardera que les participations individuelles) 
+    --     dans un événement de cette édition des JO, alors son NOC doit être identique, et 
+    --      on rejettera une participation sous une autre bannière.
+    SELECT COUNT(NOC) INTO nbReponse
+    FROM PARTICIPATION_INDIVIDUELLE PI
+    WHERE pi.resultat=resultat;
+    IF nbReponse=1 THEN 
+        RAISE_APPLICATION_ERROR(-20004,'résultat incoherant');
+    END IF;
+    IF resultat='1' OR resultat='=1' THEN 
+        resultatMedaille:='Gold';
+    ELSIF resultat='2' OR resultat='=2' THEN 
+        resultatMedaille:='Silver';
+    ELSIF resultat='3' OR resultat='=3' THEN 
+        resultatMedaille:='Bronze';
+    END IF;
+    -- TODO : Enfin, on se servira du résultat pour déterminer 
+    -- la médaille obtenue si l'événement est Olympic ou Intercalated
+
+END;
+/
+CREATE OR REPLACE PROCEDURE ajouter_resultat_equipe(
+    id_evenement EVENEMENT.IDEVENEMENT%TYPE,
+    id_equipe EQUIPE.IDEQUIPE%TYPE,
+    code_noc noc.CODENOC%TYPE,
+    resultat PARTICIPATION_EQUIPE.RESULTAT%TYPE)
+AS
+    idEvenementComparaison EVENEMENT.IDEVENEMENT%TYPE;
+    idEquipeComparaison EQUIPE.IDEQUIPE%TYPE;
+    nocComparaison NOC.CODENOC%TYPE;
+    resultatMedaille PARTICIPATION_EQUIPE.RESULTAT%TYPE;
+    nbReponse NUMBER;
+BEGIN
+    SELECT P.IDEVENEMENT,E.IDEQUIPE,E.NOC INTO idEvenementComparaison,idEquipeComparaison,nocComparaison
+    FROM EQUIPE E
+    INNER JOIN PARTICIPATION_EQUIPE P ON E.IDEQUIPE=p.IDEQUIPE
+    INNER JOIN COMPOSITION_EQUIPE CO ON e.IDEQUIPE = CO.IDEQUIPE
+    WHERE CO.IDATHLETE=idEquipeComparaison AND e.NOC=nocComparaison AND p.IDEVENEMENT=idEvenementComparaison;
+    IF idEvenementComparaison IS NULL OR idEquipeComparaison IS NULL OR nocComparaison IS NULL THEN
+        RAISE_APPLICATION_ERROR(-200001,'Equipe inexistant" (ou "Événement inexistant');
+    ELSE
+        SELECT COUNT(*) INTO nbReponse
+        FROM PARTICIPATION_INDIVIDUELLE PI
+        WHERE idAthlete = id_equipe AND pi.IDEVENT = id_evenement;
+        IF nbReponse > 0 THEN  
+            RAISE_APPLICATION_ERROR(-20002,'Équipe déjà classée');
+        END IF;
+    END IF;
+
+    -- TODO : condition pour :
+    --      - un athlète a déjà un résultat pour cet événement, on rejettera aussi
+    --      - un athlète a déjà participé (on ne regardera que les participations individuelles) 
+    --     dans un événement de cette édition des JO, alors son NOC doit être identique, et 
+    --      on rejettera une participation sous une autre bannière.
+    SELECT COUNT(NOC) INTO nbReponse
+    FROM PARTICIPATION_INDIVIDUELLE PI
+    WHERE pi.resultat=resultat;
+    IF nbReponse=1 THEN 
+        RAISE_APPLICATION_ERROR(-20003,'Position déjà occupée');
+    END IF;
+    IF resultat='1' OR resultat='=1' THEN 
+        resultatMedaille:='Gold';
+    ELSIF resultat='2' OR resultat='=2' THEN 
+        resultatMedaille:='Silver';
+    ELSIF resultat='3' OR resultat='=3' THEN 
+        resultatMedaille:='Bronze';
+    END IF;
+    -- TODO : Enfin, on se servira du résultat pour déterminer 
+    -- la médaille obtenue si l'événement est Olympic ou Intercalated
+
+END;
+/
+```
+
+### vues
+
+```sql
+--vue 1
+CREATE OR REPLACE VIEW MEDAILLES_ATHLETES AS
+SELECT idAthlete, nomAthlete, prenomAthlete,
+SUM(medaillesOr) AS MEDAILLES_D_OR,
+SUM(medaillesArgent) AS MEDAILLES_D_ARGENT,
+SUM(medaillesBronze) AS MEDAILLES_DE_BRONZE,
+SUM(medaillesOr + medaillesArgent + medaillesBronze) AS TOTAL_MEDAILLES
+FROM
+(SELECT A.idAthlete, prenomAthlete, nomAthlete, 
+COUNT(CASE WHEN PI.medaille = 'Gold' THEN 1 ELSE NULL END) AS medaillesOr,
+COUNT(CASE WHEN PI.medaille = 'Silver' THEN 1 ELSE NULL END) AS medaillesArgent,
+COUNT(CASE WHEN PI.medaille = 'Bronze' THEN 1 ELSE NULL END) AS medaillesBronze
+FROM Athlete A
+LEFT JOIN Participation_Individuelle PI ON A.idAthlete = PI.idAthlete
+GROUP BY A.idAthlete, prenomAthlete, nomAthlete
+
+UNION ALL
+
+SELECT A.idAthlete, prenomAthlete, nomAthlete, 
+COUNT(CASE WHEN PE.medaille = 'Gold' THEN 1 ELSE NULL END) AS medaillesOr,
+COUNT(CASE WHEN PE.medaille = 'Silver' THEN 1 ELSE NULL END) AS medaillesArgent,
+COUNT(CASE WHEN PE.medaille = 'Bronze' THEN 1 ELSE NULL END) AS medaillesBronze
+FROM Athlete A
+LEFT JOIN Composition_Equipe CE ON A.idAthlete = CE.idAthlete
+INNER JOIN Participation_Equipe PE ON CE.idEquipe = PE.idEquipe
+GROUP BY A.idAthlete, prenomAthlete, nomAthlete) combined_results
+GROUP BY idAthlete, prenomAthlete, nomAthlete
+ORDER BY MEDAILLES_D_OR DESC, MEDAILLES_D_ARGENT DESC,
+         MEDAILLES_DE_BRONZE DESC, TOTAL_MEDAILLES DESC,
+         nomAthlete, prenomAthlete, idAthlete;
+-- vue 2
+CREATE OR REPLACE VIEW MEDAILLES_NOC ("CODENOC", "NOMNOC", "MEDAILLES_D_OR", "MEDAILLES_D_ARGENT", "MEDAILLES_BRONZE", "TOTAL_MEDAILLES") AS 
+  SELECT 
+    N.CODENOC,
+    N.NOMNOC,
+    SUM(CASE WHEN PE.MEDAILLE = 'Gold' THEN 1 ELSE 0 END) AS MEDAILLES_D_OR,
+    SUM(CASE WHEN PE.MEDAILLE = 'Silver' THEN 1 ELSE 0 END) AS MEDAILLES_D_ARGENT,
+    SUM(CASE WHEN PE.MEDAILLE = 'Bronze' THEN 1 ELSE 0 END) AS MEDAILLES_BRONZE,
+    COUNT(PE.MEDAILLE) AS TOTAL_MEDAILLES
+FROM 
+    NOC N
+INNER JOIN 
+    EQUIPE E ON N.CODENOC = E.IDEQUIPE
+INNER JOIN
+    PARTICIPATION_EQUIPE PE ON E.IDEQUIPE = PE.IDEQUIPE
+GROUP BY 
+    N.CODENOC, N.NOMNOC
+ORDER BY 
+    MEDAILLES_D_OR DESC, MEDAILLES_D_ARGENT DESC, MEDAILLES_BRONZE DESC, TOTAL_MEDAILLES DESC, 
+    N.CODENOC, N.NOMNOC
+;
+
+```
+
+### privilege
+
+```sql
+GRANT SELECT ON ATHLETE TO ANALYSEJO;
+
+GRANT SELECT ON COMPOSITION_EQUIPE TO ANALYSEJO;
+
+GRANT SELECT ON DISCIPLINE TO ANALYSEJO;
+
+GRANT SELECT ON EQUIPE TO ANALYSEJO;
+
+GRANT SELECT ON EVENEMENT TO ANALYSEJO;
+
+GRANT SELECT ON HOTE TO ANALYSEJO;
+
+GRANT SELECT ON NOC TO ANALYSEJO;
+
+GRANT SELECT ON PARTICIPATION_INDIVIDUELLE TO ANALYSEJO;
+
+GRANT SELECT ON PARTICIPATION_EQUIPE TO ANALYSEJO;
+
+GRANT SELECT ON SPORT TO ANALYSEJO;
+
+GRANT SELECT ON LOG TO ANALYSEJO;
+
+GRANT SELECT ON MEDAILLES_NOC TO ANALYSEJO;
+
+GRANT SELECT ON MEDAILLES_ATHLETES TO GESTIONJO;
+
+GRANT SELECT ON MEDAILLES_NOC TO GESTIONJO;
+
+GRANT EXECUTE ON BIOGRAPHIE TO ANALYSEJO;
+
+GRANT EXECUTE ON RESULTATS TO ANALYSEJO;
+
+GRANT EXECUTE ON ajouter_resultat_individuel TO ANALYSEJO;
+
+GRANT EXECUTE ON ajouter_resultat_equipe TO ANALYSEJO;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON ATHLETE TO GESTIONJO;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON COMPOSITION_EQUIPE TO GESTIONJO;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON DISCIPLINE TO GESTIONJO;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON EQUIPE TO GESTIONJO;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON EVENEMENT TO GESTIONJO;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON HOTE TO GESTIONJO;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON NOC TO GESTIONJO;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON PARTICIPATION_INDIVIDUELLE TO GESTIONJO;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON PARTICIPATION_EQUIPE TO GESTIONJO;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON medailles_athletes TO GESTIONJO;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON medailles_noc TO GESTIONJO;
+
+GRANT SELECT ON LOG TO GESTIONJO;
+
+GRANT EXECUTE,DEBUG ON BIOGRAPHIE TO GESTIONJO;
+
+GRANT EXECUTE,DEBUG ON RESULTATS TO GESTIONJO;
+
+GRANT EXECUTE ON ajouter_resultat_individuel TO GESTIONJO;
+
+GRANT EXECUTE ON ajouter_resultat_equipe TO GESTIONJO;
+
+```
+
+## deuxième partie
+
+### modification table
+
+### script d'insertion
+
+```sql
+CREATE TABLE trenteKilometre
+    idAthlete NUMBER,
+    idEvent NUMBER,
+    temp  TIME
+
+    PRIMARY KEY(idAthlete,idEvent)
+
+    FOREIGN KEY idAthlete REFERENCES participation_individuelle,
+    FOREIGN KEY idEvent REFERENCES participation_individuelle
+CREATE TABLE bobslege
+    idEquipe NUMBER,
+    idEvent NUMBER,
+    run_1 VARCHAR(500),
+    run_2 VARCHAR(500),
+    run_3 VARCHAR(500),
+    run_4 VARCHAR(500)
+
+    PRIMARY KEY(idEquipe,idEvent)
+
+    FOREIGN KEY idEquie REFERENCES participation_equipe,
+    FOREIGN KEY idEvent REFERENCES participation_equipe
+CREATE TABLE slalom
+    idEquipe NUMBER,
+    idEvent NUMBER,
+    qualify_round VARCHAR(500),
+    qualify_round_two VARCHAR(500),
+    final VARCHAR(500)
+
+    PRIMARY KEY(idEquipe,idEvent)
+
+    FOREIGN KEY idEquie REFERENCES participation_equipe,
+    FOREIGN KEY idEvent REFERENCES participation_equipe
+```
+
+### script d'insetion
+
+```sql
+    INSERT INTO trenteKilometre
+    VALUES(12345,234,"1:30:50:7")
+```
