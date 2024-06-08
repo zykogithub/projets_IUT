@@ -1,0 +1,17 @@
+	LOADSI #0
+	LOADAADRSI
+	LOADDIADRSI
+debut 	CMPSIA
+	JMPPZ palin
+check	INCSI
+	LOADAADRSI
+	LOADBADRDI
+	CMPBA
+	JMPNZ nopalin
+	DECDI
+	LOADADI
+	JMP debut
+palin	LOADA #1
+	JMP fin
+nopalin	LOADA #-1
+fin 	JMP fin

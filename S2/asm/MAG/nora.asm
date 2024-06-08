@@ -1,0 +1,13 @@
+	LOADDIADRSI
+boucle 	INCSI
+	DECDI
+	LOADAADRSI
+	LOADBADRDI
+	CMPBA
+	JMPNZ si_non_palin
+	LOADADI
+	CMPSIA
+	JMPNZ boucle
+	LOADA #1
+si_non_palin LOADA #-1
+fin 	JMP fin

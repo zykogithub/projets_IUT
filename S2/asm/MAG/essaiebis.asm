@@ -1,0 +1,19 @@
+		LOADA #1
+boucle		LOADSI #1
+		LOADADI
+		LOADAADRSI
+		LOADDIADRSI
+		INCSI
+		DECDI
+		CMPSIA
+		CMPBA
+		JMP boucle
+		JMPNZ boucle
+		JMPPZ boucle
+		LOADASI
+		LOADBADRSI
+		CMPDIA
+		CMPB #1
+		SUBB #1
+		JMPN boucle
+		
