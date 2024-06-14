@@ -56,6 +56,7 @@ public class EquipeControleur implements ActionListener {
                     vue.getTable().getModel().setValueAt(nom, ligne, 0);
                     vue.getTable().getModel().setValueAt(id, ligne, 2);
                     vue.getTable().getModel().setValueAt(anneeCreation, ligne, 1); 
+                    vue.modifyRow(new Equipe(id, nom, anneeCreation));
                     JOptionPane.showMessageDialog(null, "Colonne modifiée", "validation", JOptionPane.CLOSED_OPTION);   
                 }
             }

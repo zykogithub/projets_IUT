@@ -4,6 +4,7 @@ import modeles.*;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
+import Controleur.ControleurPlanning;
 import Controleur.Enregistrer;
 import Controleur.EquipeControleur;
 
@@ -146,6 +147,36 @@ public class VueEquipe extends JPanel  {
         equipeTableModel.equipes.remove(equipe);
         equipeTableModel.fireTableRowsDeleted(ALLBITS, ABORT);
     }
+    public void afficherFenetre(){
+        JFrame fenetre = new JFrame("Epreuves des Jeux Olympiques");
+        fenetre.setSize(900, 400);
+        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fenetre.add(this);
+        fenetre.setVisible(true);
+        // Empêcher à l'utilisateur de changer la taille de la fenêtre
+        fenetre.setResizable(false);
+        retour.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (JOptionPane.showConfirmDialog(null, "Voulez-vous enregistrer le fichier", "Question",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Veuillez appuyer sur le boutton enregistrer avant de quitter.","information",JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    fenetre.dispose();
+                    Menu.main(null);
+                }
+            }
+            
+        });
+        enregistrer.addActionListener(new Enregistrer(equipeTableModel.equipes,fenetre));
+        buttonAjout.addActionListener(new EquipeControleur(this));
+        buttonSupp.addActionListener(new EquipeControleur(this));
+        buttonModif.addActionListener(new EquipeControleur(this));
+        
+
+    }
     /**
     Ajoute une équipe à la table
     @param equipe l'équipe à ajouter
@@ -249,6 +280,9 @@ public class VueEquipe extends JPanel  {
     }
     public JButton getButtonModif() {
         return buttonModif;
+    }
+    public void modifyRow(Equipe equipe) {
+        equipeTableModel.equipes.set(table.getSelectedRow(), equipe);
     }
     
     

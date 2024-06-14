@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import modeles.Epreuve;
 import modeles.Equipe;
 import modeles.Planning;
+import modeles.Session;
 import vue.VueEpreuve;
 import vue.VueEquipe;
 import vue.VuePlanning;
@@ -45,32 +46,33 @@ public class Enregistrer implements ActionListener, Serializable {
             JButton button = (JButton) e.getSource();
             // si c'est le bouton retour, on demande si on veut enregistrer
             if ("Retour".equals(button.getText())) {
-                String nomFichier = JOptionPane.showInputDialog("Veuillez donner le chemin vers le fichier");
+                String nomFichier = JOptionPane.showInputDialog("Veuillez donner le chemin vers le fichier et le fichier doit être au format .dat");
                 File fichier = new File(nomFichier);
                 if (fichier.exists()) {
                     // block try catch afin d'attraper les erreurs lancées par les
                     // fonctions enregistrer et enregistrerFichier
+                    boolean enregistrementEffectuer = true;
                     try {
                         this.enregistrerFichier(fichier);
                     } catch (ClassNotFoundException | IOException e1) {
-                        if (!fichier.exists()) {
-                            e1.printStackTrace();
-                            JOptionPane.showMessageDialog(null, "Fichier non enregistré");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Fichier enregistré");
-                        }
-                        Runnable action = JOptionPane.showConfirmDialog(null, "Voulez-revenir au menu") == JOptionPane.YES_NO_OPTION
-                                ? () -> { vue.Menu.main(null); fenetre.dispose(); }
-                                : () -> {};
-                        action.run();
+                        enregistrementEffectuer=false;
                     }
+                    if (!enregistrementEffectuer) {
+                        JOptionPane.showMessageDialog(null, "Fichier non enregistré");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Fichier enregistré");
+                    }
+                    Runnable action = JOptionPane.showConfirmDialog(null, "Voulez-revenir au menu") == JOptionPane.YES_NO_OPTION
+                            ? () -> { vue.Menu.main(null); fenetre.dispose(); }
+                            : () -> {};
+                    action.run();
                 }
             }
             // si c'est le bouton enregistrer, on enregistre le fichier
             else if ("Enregistrer".equals(button.getText())) {
                 Boolean cliqueOui = JOptionPane.showConfirmDialog(null, "Voulez-vous enregistrer le fichier", "question", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
                 if (cliqueOui) {
-                    String nomFichier = JOptionPane.showInputDialog("Veuillez donner le chemin vers le fichier");
+                    String nomFichier = JOptionPane.showInputDialog("Veuillez donner le chemin vers le fichier et le fichier doit être au format .dat");
                     File fichier = new File(nomFichier);
                     boolean enregistrementEffectuer = true;
                     if (fichier.exists()) {
@@ -108,7 +110,7 @@ public class Enregistrer implements ActionListener, Serializable {
                 }
             } else if ("Ouvrir".equals(button.getText())) 
             {
-                String nomFichier = JOptionPane.showInputDialog("Veuillez donner le chemin vers le fichier");
+                String nomFichier = JOptionPane.showInputDialog("Veuillez donner le chemin vers le fichier et le fichier doit être au format .dat");
                 File file = new File(nomFichier);
                 if (file.exists()) {
                     try {
@@ -145,9 +147,13 @@ public class Enregistrer implements ActionListener, Serializable {
             if (!matchFound) {
                 JOptionPane.showMessageDialog(null, "Le fichier n'a pas le bon format", "erreur", JOptionPane.ERROR_MESSAGE);
             } else {
-                try (FileOutputStream enStream = new FileOutputStream(fichier);
-                     ObjectOutputStream floOutputStream = new ObjectOutputStream(enStream)) {
+                try {
+                    FileOutputStream enStream = new FileOutputStream(fichier);
+                    ObjectOutputStream floOutputStream = new ObjectOutputStream(enStream);
                     floOutputStream.writeObject(modele);
+                    floOutputStream.close();
+                    enStream.close();
+                    
                 }catch (IOException e4){
                     e4.printStackTrace();
                 }
@@ -174,12 +180,18 @@ public class Enregistrer implements ActionListener, Serializable {
         } 
         else 
         {
-            try (FileOutputStream enStream = new FileOutputStream(fichier);
-                 ObjectOutputStream floOutputStream = new ObjectOutputStream(enStream)) {
+            try {
+                FileOutputStream enStream = new FileOutputStream(fichier);
+                ObjectOutputStream floOutputStream = new ObjectOutputStream(enStream);
                 floOutputStream.writeObject(modele);
+                floOutputStream.close();
+                enStream.close();
+            }catch (IOException e4){
+                e4.printStackTrace();
             }
         }
     }
+    
 
     /**
      * Ouvre un fichier existant.
@@ -198,32 +210,40 @@ public class Enregistrer implements ActionListener, Serializable {
             if (!matchFound) {
                 JOptionPane.showMessageDialog(null, "Le fichier n'a pas le bon format", "erreur", JOptionPane.ERROR_MESSAGE);
             } else {
-                try (FileInputStream fichier = new FileInputStream(file);
-                     ObjectInputStream flotObjet = new ObjectInputStream(fichier)) {
+                try {
+                    FileInputStream fichier = new FileInputStream(file);
+                    ObjectInputStream flotObjet = new ObjectInputStream(fichier);
                     Object lue = flotObjet.readObject();
+                    flotObjet.close();
+                    fichier.close();
                     if (lue instanceof ArrayList<?>) {
                         ArrayList<?>arrayList = ((ArrayList<?>)lue);
                             
                         if (arrayList.get(1) instanceof Epreuve) {
                             ArrayList<Epreuve> arrayListEpreuves = ((ArrayList<Epreuve>)arrayList);
                             VueEpreuve vue = new VueEpreuve(arrayListEpreuves);
-                            vue.main(null);
+                            vue.afficherFenetre();
                             fenetre.dispose();
                         }
                         else if (arrayList.get(0) instanceof Equipe) {
                             ArrayList<Equipe> arrayListEpreuves = ((ArrayList<Equipe>)arrayList);
                             VueEquipe vue = new VueEquipe(arrayListEpreuves);
-                            vue.main(null);
+                            vue.afficherFenetre();;
+                            fenetre.dispose();
+                        }
+                        else if (arrayList.get(0) instanceof Session) {
+                            ArrayList<Session> sessions = ((ArrayList<Session>)arrayList);  
+                            VuePlanning vue = new VuePlanning(new Planning(sessions));
+                            vue.afficherFenetre();
                             fenetre.dispose();
                         }   
                     }    
-                        else if (lue instanceof Planning) {
-                        Planning planning = (Planning) lue;
-                        VuePlanning vuePlanning = new VuePlanning(planning);
-                        vuePlanning.main(null);
-                        fenetre.dispose();
-                    }
-                } catch (NullPointerException e) {
+                     
+                }
+                catch (IOException | ClassNotFoundException e) {
+                    JOptionPane.showMessageDialog(null, "Erreur dans l'ouverture du fichier", "erreur", JOptionPane.ERROR_MESSAGE);
+                }
+                catch (NullPointerException e) {
                     JOptionPane.showMessageDialog(null, "Erreur dans l'ouverture du fichier", "erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }

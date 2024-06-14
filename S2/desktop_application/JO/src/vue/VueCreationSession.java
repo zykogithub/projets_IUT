@@ -42,8 +42,8 @@ public class VueCreationSession extends JPanel {
         nom = new JLabel("Création d'une nouvelle session");
         nom.setHorizontalAlignment(JLabel.CENTER);
         nom.setFont(new Font("Serif", Font.BOLD, 20));
-        epreuve = new JLabel("Id de l'épreuve : ");
-        id = new JLabel("Id de la session : ");
+        epreuve = new JLabel("Identifiant de l'épreuve : ");
+        id = new JLabel("Identifiant de la session : ");
         date = new JLabel("Date de la session : ");
         horaire = new JLabel("Horaire de la session : ");
         nomField = new JTextField(20);

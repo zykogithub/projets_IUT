@@ -49,7 +49,7 @@ public class EpreuveControleur implements ActionListener {
                 }
             } 
             else if (action.equals("Ajouter")) { // Action pour ajouter une nouvelle épreuve
-                String nom = JOptionPane.showInputDialog("Veuillez donnez un nouveau nom d'équipe");
+                String nom = JOptionPane.showInputDialog("Veuillez donnez un nouveau nom d'épreuve");
                 if (nom == null) {
                     JOptionPane.showMessageDialog(null, "Aucun nom n'a été fourni", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
@@ -105,7 +105,7 @@ public class EpreuveControleur implements ActionListener {
                     vue.getTable().getModel().setValueAt(dateDebut, ligne, 1);
                     vue.getTable().getModel().setValueAt(dateFin, ligne, 2);
                     vue.getTable().getModel().setValueAt(0, ligne, 3); 
-                    vue.addRow(epreuve);
+                    vue.modifyRow(epreuve);
                     JOptionPane.showConfirmDialog(null, "Colonne modifiée", "validation", JOptionPane.CLOSED_OPTION);   
                 }
             }

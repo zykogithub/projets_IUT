@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * La classe VuePlanning représente l'interface graphique pour visualiser et gérer le planning des sessions.
@@ -132,7 +134,35 @@ public class VuePlanning extends JPanel {
 
     public void supprimerSessionSelectionnee() {
         if (selectedPanel != null) {
-            sessionPanel.remove(selectedPanel);
+            
+
+                if (selectedPanel.getComponent(0) instanceof JLabel ) {
+                    JLabel label = ((JLabel)selectedPanel.getComponent(0));
+                    if (!label.getText().equals("Cette session n'a pas d'épreuve    ") && label.getText()!=null) {
+                        String text = label.getText();
+                        Pattern pattern = Pattern.compile(text);
+                        Matcher matcher ;
+                        boolean matchFound = false;
+                        int i = 0;
+                        while (!matchFound && i<this.planning.getSesSessions().size()) {
+                            matcher = pattern.matcher(this.planning.getSesSessions().get(i).getEpreuve().getNom()+ "  ");
+                            matchFound = matcher.matches();
+                            i++;
+                        }
+                        if (i<this.planning.getSesSessions().size()) {
+                            this.planning.getSesSessions().remove(i);
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Erreur dans la suppression de la session", "erreur", JOptionPane.ERROR_MESSAGE);
+                        }    
+                    }
+                sessionPanel.remove(selectedPanel);
+                selectedPanel = null;
+                    
+                
+            }
+            
+
             selectedPanel = null;
             sessionPanel.revalidate();
             sessionPanel.repaint();
@@ -152,6 +182,9 @@ public class VuePlanning extends JPanel {
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Planning p = new Planning();
+
+        VuePlanning vue = new VuePlanning(p);
+        
         
         
         // Création des épreuves
@@ -171,7 +204,13 @@ public class VuePlanning extends JPanel {
         Session s5 = new Session(5, "2024-07-30", "18:00");
         s5.setEpreuve(e2);
         
-        VuePlanning vue = new VuePlanning(p);
+
+        vue.planning.getSesSessions().add(s5);
+        vue.planning.getSesSessions().add(s4);
+        vue.planning.getSesSessions().add(s3);
+        vue.planning.getSesSessions().add(s2);
+        vue.planning.getSesSessions().add(s1);
+        
 
         
         vue.ajouterSession(s1);
@@ -180,15 +219,10 @@ public class VuePlanning extends JPanel {
         vue.ajouterSession(s4);
         vue.ajouterSession(s5);
 
-        vue.enregistrer.addActionListener(new Enregistrer(vue.planning,fenetre));
         
+
+        vue.enregistrer.addActionListener(new Enregistrer(vue.planning.getSesSessions(),fenetre));
         ControleurPlanning e = new ControleurPlanning(vue.planning,vue,vue.vueSession,fenetre);
-        vue.buttonSupp.addActionListener(e);
-        vue.buttonAjout.addActionListener(e);
-        fenetre.add(vue);
-        fenetre.setVisible(true);
-        // Empêcher à l'utilisateur de changer la taille de la fenêtre
-        fenetre.setResizable(false);
         vue.retour.addActionListener(new ActionListener() {
 
             @Override
@@ -202,15 +236,62 @@ public class VuePlanning extends JPanel {
                 }   
             }
         });
+        
+        vue.buttonSupp.addActionListener(e);
+        vue.buttonAjout.addActionListener(e);
+        fenetre.add(vue);
+        fenetre.setVisible(true);
+        // Empêcher à l'utilisateur de changer la taille de la fenêtre
+        fenetre.setResizable(false);
+        
     }
 
 
     public JButton getButtonSupp() {
         return buttonSupp;
     }
+    public void afficherFenetre(){
+        JFrame fenetre = new JFrame("Epreuves des Jeux Olympiques");
+        fenetre.setSize(900, 400);
+        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        for (Session session : planning.getSesSessions()) {
+            this.ajouterSession(session);
+        }
+        fenetre.add(this);
+        fenetre.setVisible(true);
+        // Empêcher à l'utilisateur de changer la taille de la fenêtre
+        fenetre.setResizable(false);
+        retour.addActionListener(new ActionListener() {
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (JOptionPane.showConfirmDialog(null, "Voulez-vous enregistrer le fichier", "Question",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Veuillez appuyer sur le boutton enregistrer avant de quitter.","information",JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    fenetre.dispose();
+                    Menu.main(null);
+                }
+            }
+            
+        });
+        enregistrer.addActionListener(new Enregistrer(planning,fenetre));
+        buttonAjout.addActionListener(new ControleurPlanning(planning, this, vueSession,fenetre));
+        buttonSupp.addActionListener(new ControleurPlanning(planning, this, vueSession,fenetre));
+        
+
+    }
 
     public JButton getButtonAjout() {
         return buttonAjout;
     }
+
+
+    
+    public Planning getPlanning() {
+        return planning;
+    }
+
+    
 }

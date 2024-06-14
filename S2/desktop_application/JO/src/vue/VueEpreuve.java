@@ -6,6 +6,7 @@ import javax.swing.table.AbstractTableModel;
 
 import Controleur.Enregistrer;
 import Controleur.EpreuveControleur;
+import Controleur.EquipeControleur;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -208,10 +209,43 @@ public class VueEpreuve extends JPanel {
         // Empêcher à l'utilisateur de changer la taille de la fenêtre
         fenetre.setResizable(false);
     }
+    public void afficherFenetre(){
+        JFrame fenetre = new JFrame("Epreuves des Jeux Olympiques");
+        fenetre.setSize(900, 400);
+        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fenetre.add(this);
+        fenetre.setVisible(true);
+        // Empêcher à l'utilisateur de changer la taille de la fenêtre
+        fenetre.setResizable(false);
+        retour.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (JOptionPane.showConfirmDialog(null, "Voulez-vous enregistrer le fichier", "Question",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Veuillez appuyer sur le boutton enregistrer avant de quitter.","information",JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    fenetre.dispose();
+                    Menu.main(null);
+                }
+            }
+            
+        });
+        enregistrer.addActionListener(new Enregistrer(epreuveTableModel.epreuves,fenetre));
+        buttonAjout.addActionListener(new EpreuveControleur(this));
+        buttonSupp.addActionListener(new EpreuveControleur(this));
+        buttonModif.addActionListener(new EpreuveControleur(this));
+
+    }
 
     public void addRow(Epreuve epreuve) {
         epreuveTableModel.epreuves.add(epreuve);
         epreuveTableModel.fireTableRowsInserted(ALLBITS, ABORT);
+    }
+    public void modifyRow(Epreuve epreuve)
+    {
+        epreuveTableModel.epreuves.set(table.getSelectedRow(), epreuve);
     }
 
     public Object getObjectRow() {

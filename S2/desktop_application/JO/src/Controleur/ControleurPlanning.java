@@ -54,14 +54,17 @@ public class ControleurPlanning implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == VuePlanning.ACTION_AJOUTER) {
+        if (e.getActionCommand() == VuePlanning.ACTION_AJOUTER) 
+        {
+            JOptionPane.showMessageDialog(null, "La date est au format aaaa-mm-jj et l'heure est au format hh:mm et id=identifiant, un nombre de 5 chifre","information",JOptionPane.INFORMATION_MESSAGE);
             afficher();
         } else if (e.getActionCommand() == VuePlanning.ACTION_SUPPRIMER) {
             vue.supprimerSessionSelectionnee();
-        } else if (e.getActionCommand() == VueCreationSession.ACTION_AJOUTER) {
-            JOptionPane.showMessageDialog(null, "zadaaz");
-            if (vueCreationSession.getIdField().getText() != null && vueCreationSession.getEpreuveField().getText() != null && vueCreationSession.getDateField().getText() != null && vueCreationSession.getEpreuveField().getText() != null && vueCreationSession.getHoraireField().getText() != null) {
-
+        } 
+        else if (e.getActionCommand() == VueCreationSession.ACTION_AJOUTER) 
+        {   
+            if ((vueCreationSession.getIdField().getText() != null && !vueCreationSession.getNomField().getText().equals("")) && (vueCreationSession.getEpreuveField().getText() != null &&!vueCreationSession.getEpreuveField().getText().equals("")) && (vueCreationSession.getDateField().getText() != null &&!vueCreationSession.getDateField().getText().equals("")) && (vueCreationSession.getEpreuveField().getText() != null &&!vueCreationSession.getEpreuveField().getText().equals("")) && (vueCreationSession.getHoraireField().getText() != null &&!vueCreationSession.getHoraireField().getText().equals(""))) {
+                System.out.println(vueCreationSession.getIdField().getText()+" cdqca");
                 Pattern pattern = Pattern.compile("^(\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$");
                 Matcher matcher = pattern.matcher(vueCreationSession.getDateField().getText());
                 boolean matchFound = matcher.find();
@@ -81,13 +84,15 @@ public class ControleurPlanning implements ActionListener {
                     Epreuve modelEpreuve = new Epreuve(Integer.parseInt(vueCreationSession.getIdField().getText()), vueCreationSession.getNomField().getText(), vueCreationSession.getDateField().getText(), "null");
                     modeleession.setEpreuve(modelEpreuve);
                     vue.ajouterSession(modeleession);
+                    this.vue.getPlanning().getSesSessions().add(modeleession);
                     fenetre.dispose();
                     JOptionPane.showConfirmDialog(null, "Session créée", "confirmation", JOptionPane.CLOSED_OPTION);
                 } catch (NumberFormatException er) {
                     JOptionPane.showMessageDialog(null, "Les identifiants sont mal écrits", "erreur", JOptionPane.ERROR_MESSAGE);
                 }
 
-            } else {
+            } 
+            else {
                 JOptionPane.showMessageDialog(null, "Il manque des champs à compléter", "erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -97,13 +102,13 @@ public class ControleurPlanning implements ActionListener {
      * Méthode pour afficher la vue de création de session des Jeux Olympiques.
      */
     public void afficher() {
+
         JFrame fenetre = new JFrame("Création session des Jeux Olympiques");
-        fenetre.setSize(400, 300);
         fenetre.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         VueCreationSession creationPanel = new VueCreationSession();
         creationPanel.getAjouterButton().addActionListener(this);
-
+        fenetre.setSize(400, 300);
         fenetre.add(creationPanel);
         fenetre.setVisible(true);
     }

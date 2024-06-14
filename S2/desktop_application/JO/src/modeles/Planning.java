@@ -20,6 +20,11 @@ public class Planning implements Serializable {
      */
     public Planning() {
         nbSessions = 0;
+        sesSessions = new ArrayList<Session>();
+    }
+    public Planning(ArrayList<Session> sessions) {
+        nbSessions = 0;
+        sesSessions = sessions;
     }
 
     /**
