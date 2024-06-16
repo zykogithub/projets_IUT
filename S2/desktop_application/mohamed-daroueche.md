@@ -63,16 +63,16 @@ Voici ce qui sera présenté pour chaque participant :
    - 1:10 minutes
    - 100%
    - observations :
-     - cdadazd
+     - n'a 
      - dazazd
    - capture d'écran oublié
 2. compte redu :
 
    - 1:40 minutes
-   - 100%
+   - 50%
    - observations :
-     - cdadazd
-     - dazazd
+     - l'identifiant etait mal ecrit mais aucun beug lancé
+     - elle a pensé finir en enregistrant le fichier
    - capture d'écran oublié
 3. ressenti global sur l'utillisation de l'application :
 
@@ -82,11 +82,11 @@ Voici ce qui sera présenté pour chaque participant :
 
 1. compte redu :
 
-   - 1:10 minutes
+   - 3:13 minutes
    - 100%
    - observations :
-     - cdadazd
-     - dazazd
+     - il faut cliquer pour afficher les changements 
+     - identifiant etait un un string pour elle
    - capture d'écran oublié
 2. compte redu :
 
@@ -97,19 +97,20 @@ Voici ce qui sera présenté pour chaque participant :
      - dazazd
    - capture d'écran oublié
 3. ressenti global sur l'utillisation de l'application :
+4. soulé
+5. identifiant = un nom
 
-4. amélioration sugérée :
+6. amélioration sugérée :
 
 ### Participant 4
 
 1. compte redu :
 
-   - 1:10 minutes
+   - 1:50 minutes
    - 100%
    - observations :
-     - cdadazd
-     - dazazd
-   - capture d'écran oublié
+     - compréhension
+   - capture d'écran a mettre
 2. compte redu :
 
    - 1:40 minutes
@@ -119,36 +120,46 @@ Voici ce qui sera présenté pour chaque participant :
      - dazazd
    - capture d'écran oublié
 3. ressenti global sur l'utillisation de l'application :
+4. simple
+5. rien de complique
+6. question facile
 
-4. amélioration sugérée :
+7. amélioration sugérée :
+8. mettre le format francais des dates avec /
 
 ### Participant 5
 
 1. compte redu :
 
-   - 1:10 minutes
+   - 2:00 minutes
    - 100%
    - observations :
-     - cdadazd
-     - dazazd
-   - capture d'écran oublié
+     - perdu au debut 
+     - a reussi a s'y retrouver
+   - capture d'écran a mettre
 2. compte redu :
 
-   - 1:40 minutes
+   - 1:34 minutes
    - 100%
    - observations :
-     - cdadazd
+     - la modification n'est pas apparu sur l'ecran 
      - dazazd
-   - capture d'écran oublié
+   - capture d'écran a mettre
 3. ressenti global sur l'utillisation de l'application :
 
 4. amélioration sugérée :
+5. pas assez indicatif
+6. pas assez de donne pour les informations
 
 <p style="page-break-before : always;"></p>
 
 ## Conclusion
 
 ### Synthèse des problèmes rencontrés
+
+indentifiant n'est pas systematiquement un nombre 
+
+format de date non affordant
 
 ### Suggestion d'amélioration
 
