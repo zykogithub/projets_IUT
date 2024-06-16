@@ -37,7 +37,6 @@ Voici ce qui sera présenté pour chaque participant :
 ### Participant 1
 
 1. compte redu :
-
    - 1:00 minutes
    - 100%
    - observations :
@@ -47,14 +46,15 @@ Voici ce qui sera présenté pour chaque participant :
    - 1:00 minutes
    - 100%
    - observations :
-   aucun
-   - 
-3. ressenti global sur l'utillisation de l'application :
-4. agréablement surprise par la simplicité de l'appliction
-5. facile d'utilisation
-6. bien présenté
+     - aucun
 
-8. amélioration sugérée :
+3. ressenti global sur l'utillisation de l'application :
+   - agréablement surprise par la simplicité de l'appliction
+   - facile d'utilisation
+   - bien présenté
+
+4. amélioration sugérée :
+   - aucune
 
 ### Participant 2
 
