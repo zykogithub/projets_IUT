@@ -1,8 +1,10 @@
 # Rapport
 
 - [Rapport](#rapport)
-  - [Tâche à réaliser](#tâche-à-réaliser)
-  - [Retour des participants](#retour-des-participants)
+  - [Organisation](#organisation)
+    - [Tâche à réaliser](#tâche-à-réaliser)
+    - [Observations prises](#observations-prises)
+  - [Observations](#observations)
     - [Participant 1](#participant-1)
     - [Participant 2](#participant-2)
     - [Participant 3](#participant-3)
@@ -14,18 +16,16 @@
 
 <p style="page-break-before : always;"></p>
 
-## Tâche à réaliser
+## Organisation
+
+### Tâche à réaliser
 
 Voici les tâches à réaliser par les utilisateurs :
 
 1. ajouter une équipe
 2. modifier un épreuves
 
-<p style="page-break-before : always;"></p>
-
-## Retour des participants
-
-Voici ce qui sera présenté pour chaque participant :
+### Observations prises
 
 - Le temps mis pour accomplir cette tâche (vous pouvez chronométrer)
 - Le pourcentage de complétion (si vous estimez qu’il a arrêté juste avant de finir, vous indiquerez 90% par exemple, c’est subjectif)
@@ -33,6 +33,10 @@ Voici ce qui sera présenté pour chaque participant :
 - une capture d’écran de l’écran où le participant s’est arrêté
 - ressenti global sur l'utilisation de l'application
 - une amélioration suggérée par l'utilisateur
+
+<p style="page-break-before : always;"></p>
+
+## Observations
 
 ### Participant 1
 
@@ -60,47 +64,55 @@ Voici ce qui sera présenté pour chaque participant :
 
 1. compte redu :
 
-   - 1:10 minutes
-   - 100%
-   - observations :
-     - n'a 
-     - dazazd
-   - capture d'écran oublié
-2. compte redu :
-
    - 1:40 minutes
    - 50%
    - observations :
      - l'identifiant etait mal ecrit mais aucun beug lancé
      - elle a pensé finir en enregistrant le fichier
    - capture d'écran oublié
+2. compte redu :
+
+   - 3:13 minutes
+   - 100%
+   - observations :
+     - il faut cliquer pour afficher les changements
+     - identifiant etait un un string pour elle
+   - capture d'écran oublié
 3. ressenti global sur l'utillisation de l'application :
 
+   - réfléchi
+   - compréhensible
+   - format des dates non affordant
+   - identifiant qui renvoie à un nom
 4. amélioration sugérée :
+   - indiquer qu'un identifiant est un nombre
+   - utiliser le format français des dates
 
 ### Participant 3
 
 1. compte redu :
 
-   - 3:13 minutes
-   - 100%
-   - observations :
-     - il faut cliquer pour afficher les changements 
-     - identifiant etait un un string pour elle
-   - capture d'écran oublié
+- 1:40 minutes
+- 100%
+- observations :
+  - a trouvé les différent
+- capture d'écran oublié
+
 2. compte redu :
 
    - 1:40 minutes
    - 100%
    - observations :
-     - cdadazd
-     - dazazd
+     - des fautes de frappe qui ont pu être changé
    - capture d'écran oublié
-3. ressenti global sur l'utillisation de l'application :
-4. soulé
-5. identifiant = un nom
 
-6. amélioration sugérée :
+3. ressenti global sur l'utillisation de l'application :
+
+   - clair
+
+4. amélioration sugérée :
+
+   - pleine écran
 
 ### Participant 4
 
@@ -109,23 +121,22 @@ Voici ce qui sera présenté pour chaque participant :
    - 1:50 minutes
    - 100%
    - observations :
-     - compréhension
+     - compréhension des éléments
    - capture d'écran a mettre
 2. compte redu :
 
    - 1:40 minutes
    - 100%
    - observations :
-     - cdadazd
-     - dazazd
+     - il a fallu cliquer pour voir les résultats
    - capture d'écran oublié
 3. ressenti global sur l'utillisation de l'application :
-4. simple
-5. rien de complique
-6. question facile
+   - simple
+   - rien de complique
+   - question facile
 
-7. amélioration sugérée :
-8. mettre le format francais des dates avec /
+4. amélioration sugérée :
+   - mettre le format francais des dates avec /
 
 ### Participant 5
 
@@ -134,7 +145,7 @@ Voici ce qui sera présenté pour chaque participant :
    - 2:00 minutes
    - 100%
    - observations :
-     - perdu au debut 
+     - perdu au debut
      - a reussi a s'y retrouver
    - capture d'écran a mettre
 2. compte redu :
@@ -142,14 +153,16 @@ Voici ce qui sera présenté pour chaque participant :
    - 1:34 minutes
    - 100%
    - observations :
-     - la modification n'est pas apparu sur l'ecran 
-     - dazazd
+     - la modification n'est pas apparu sur l'ecran
    - capture d'écran a mettre
 3. ressenti global sur l'utillisation de l'application :
+  
+    - pas assez indicatif
+    - pas assez de donne pour les informations
 
 4. amélioration sugérée :
-5. pas assez indicatif
-6. pas assez de donne pour les informations
+
+   - donner plus d'information sur l'écran d'acceuil
 
 <p style="page-break-before : always;"></p>
 
@@ -157,11 +170,9 @@ Voici ce qui sera présenté pour chaque participant :
 
 ### Synthèse des problèmes rencontrés
 
-indentifiant n'est pas systematiquement un nombre 
-
-format de date non affordant
+- indentifiant ne renvoie pas systématiquement à un nombre
+- format des date non affordant
+- non possibilité de mettre en plein écran dérangeante, on perd une partie voire la totalité de l'attention de la persoone
+- les beugs d'affichage recontré venait du faite que j'utilisais un raccourci du fichier.jar qui menait vers l'executable. En passant par l'executable directement, acun soucis
 
 ### Suggestion d'amélioration
-
-<style> img {display: block;float: none;margin-left: auto;margin-right: auto; height : 50%; width : 50%}</style>
-
