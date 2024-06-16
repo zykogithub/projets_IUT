@@ -3,6 +3,8 @@ package modeles;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.management.ValueExp;
+
 /**
  * La classe Planning représente le planning de sessions.
  * Elle contient une liste de sessions et le nombre de sessions.
@@ -69,4 +71,21 @@ public class Planning implements Serializable {
     public void supprimerSession() {
         // Implémentation de la méthode pour supprimer une session
     }
+    public Epreuve rechercherNomEpreuve(int int1) throws NoSuchFieldError {
+        int i = 0;
+        // remarque : le mieux aurait été de chercher la donnée dans la collection d'épreuve crée. Le souccis c'est que c'est pas possible
+        while (!(sesSessions.get(i).sonEpreuve.getIdentifiant()==int1) && i<sesSessions.size()) {
+            i+=1;
+        }
+    
+        if (i==sesSessions.size()) {
+            throw new NoSuchFieldError();
+            
+        }
+        else{
+            return sesSessions.get(i).sonEpreuve;
+        }
+        
+    }
+    
 }

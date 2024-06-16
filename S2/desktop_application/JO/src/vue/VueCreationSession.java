@@ -1,6 +1,8 @@
 package vue;
 
 import javax.swing.*;
+
+import Controleur.ControleurPlanning;
 import modeles.Planning;
 
 
@@ -112,6 +114,7 @@ public class VueCreationSession extends JPanel {
         panelCentral.add(horaireField);
         add(panelCentral, BorderLayout.CENTER);
         add(ajouter, BorderLayout.SOUTH);
+        
     }
 
     /**
@@ -202,5 +205,20 @@ public class VueCreationSession extends JPanel {
      */
     public void setListener(ActionListener l) {
         this.ajouter.addActionListener(l);
+    }
+
+    /**
+     * Méthode pour afficher la vue de création de session des Jeux Olympiques.
+     */
+    public void afficher() {
+
+        JFrame fenetre = new JFrame("Création session des Jeux Olympiques");
+        fenetre.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        
+
+        fenetre.setSize(400, 300);
+        fenetre.add(this);
+        fenetre.setVisible(true);
     }
 }

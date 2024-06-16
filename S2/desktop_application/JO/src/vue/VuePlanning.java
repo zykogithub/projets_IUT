@@ -177,15 +177,11 @@ public class VuePlanning extends JPanel {
      */
     public static void main(String[] args) {
         JFrame fenetre = new JFrame("Planning des Jeux Olympiques");
-
         fenetre.setSize(900, 400);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Planning p = new Planning();
-
         VuePlanning vue = new VuePlanning(p);
-        
-        
         
         // Création des épreuves
         Epreuve e1 = new Epreuve(1, "100m Sprint", "2024-07-26", "2024-07-26");
@@ -216,13 +212,10 @@ public class VuePlanning extends JPanel {
         vue.ajouterSession(s1);
         vue.ajouterSession(s2);
         vue.ajouterSession(s3);
-        vue.ajouterSession(s4);
-        vue.ajouterSession(s5);
 
         
 
         vue.enregistrer.addActionListener(new Enregistrer(vue.planning.getSesSessions(),fenetre));
-        ControleurPlanning e = new ControleurPlanning(vue.planning,vue,vue.vueSession,fenetre);
         vue.retour.addActionListener(new ActionListener() {
 
             @Override
@@ -237,8 +230,8 @@ public class VuePlanning extends JPanel {
             }
         });
         
-        vue.buttonSupp.addActionListener(e);
-        vue.buttonAjout.addActionListener(e);
+        vue.buttonSupp.addActionListener(new ControleurPlanning(vue.planning,vue,vue.vueSession));
+        vue.buttonAjout.addActionListener(new ControleurPlanning(vue.planning,vue,vue.vueSession));
         fenetre.add(vue);
         fenetre.setVisible(true);
         // Empêcher à l'utilisateur de changer la taille de la fenêtre

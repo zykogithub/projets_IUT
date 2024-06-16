@@ -18,8 +18,8 @@
 
 Voici les tâches à réaliser par les utilisateurs :
 
-1. modifier des équipes
-2. ouvrir le fichier oui.dat et y apporter des modifications
+1. ajouter une équipe
+2. modifier les épreuves
 
 <p style="page-break-before : always;"></p>
 
@@ -144,7 +144,7 @@ Voici ce qui sera présenté pour chaque participant :
 
 4. amélioration sugérée :
 
-<p style="page-breakdown-before : always;"></p>
+<p style="page-break-before : always;"></p>
 
 ## Conclusion
 
