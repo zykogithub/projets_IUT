@@ -38,23 +38,23 @@ Voici ce qui sera présenté pour chaque participant :
 
 1. compte redu :
 
-   - 1:10 minutes
+   - 1:00 minutes
    - 100%
    - observations :
-     - cdadazd
-     - dazazd
-   - capture d'écran oublié
+     - a pensé que c'était plus dur
+     - a realise la tache
 2. compte redu :
-
-   - 1:40 minutes
+   - 1:00 minutes
    - 100%
    - observations :
-     - cdadazd
-     - dazazd
-   - capture d'écran oublié
+   aucun
+   - 
 3. ressenti global sur l'utillisation de l'application :
+4. agréablement surprise par la simplicité de l'appliction
+5. facile d'utilisation
+6. bien présenté
 
-4. amélioration sugérée :
+8. amélioration sugérée :
 
 ### Participant 2
 
