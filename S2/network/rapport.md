@@ -64,6 +64,8 @@
 
 **Configurer les routeurs et serveurs pour qu’ils aient accès au réseau Internet**
 
+TODO : vérifier la configuration des routes de chaque serveur dhcp de chaque routeur
+
 - athos :
 
 ```bash
@@ -106,13 +108,42 @@
   up ip route add 10.0.0.0/24 via 10.0.193.1 dev eth1
 ```
 
+- mousqueton
+
+```bash
+
+auto eth0
+iface eth0 inet dhcp
+
+```
+
+- basin
+
+```bash
+
+auto eth0
+iface eth0 inet dhcp
+
+```
+
+- planchet
+
+```bash
+
+auto eth0
+iface eth0 inet dhcp
+
+```
+
 <p style="page-break-before : always;"></p>
 
 ## Service DHCP
 
 **configuration d'un serveur DHCP  sur les routeurs nommés "dartagnan", "porthos", "aramis" et "athos"**
 
-- porthos :
+porthos :
+  
+- dans le fichier /etc/dhcp/dhcp.conf
 
 ```bash
 option rfc3442-classless-static-routes code 121 = array of integer 8;
@@ -120,8 +151,64 @@ subnet 10.24.0.0 netmask 255.255.0.0
 {
   range 10.24.0.1 10.27.255.190
   option rfc-classless-static-routes 24, 10,0,193 10,24,0,1 0, 10,0,193,1;
-  option domain-name-servers porthos.dumas
+  # option domain-name-servers porthos.dumas
   default-lease-time 86400;
   max-lease-time 604800;
 }
+```
+
+- dans le fichier /etc/default/isc-dhcp-server :
+
+```bash
+
+INTERFACES="eth0"
+
+```
+
+aramis :
+  
+- dans le fichier /etc/dhcp/dhcp.conf
+
+```bash
+option rfc3442-classless-static-routes code 121 = array of integer 8;
+subnet 10.136.0.0 netmask 255.255.0.0 
+{
+  range 10.136.0.1 10.139.255.190;
+  option rfc-classless-static-routes 24, 10,0,193 10,0,193,2 0, 10,0,193,1;
+  # option domain-name-servers aramis.dumas
+  default-lease-time 86400;
+  max-lease-time 604800;
+}
+```
+  
+- dans le fichier /etc/default/isc-dhcp-server :
+
+```bash
+
+INTERFACES="eth0"
+
+```
+
+athos :
+  
+- dans le fichier /etc/dhcp/dhcp.conf
+
+```bash
+option rfc3442-classless-static-routes code 121 = array of integer 8;
+subnet 10.160.0.0 netmask 255.255.0.0 
+{
+  range 10.160.0.1 10.163.255.190
+  option rfc-classless-static-routes 24, 10,0,193 10,160,0,1 0, 10,0,193,1;
+  # option domain-name-servers athos.dumas
+  default-lease-time 86400;
+  max-lease-time 604800;
+}
+```
+  
+- dans le fichier /etc/default/isc-dhcp-server :
+
+```bash
+
+INTERFACES="eth0"
+
 ```

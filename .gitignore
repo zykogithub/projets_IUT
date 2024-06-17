@@ -40,3 +40,4 @@ S2/archi/MAG/nora.asm
 S2/archi/MAG/essaie.asm
 S2/archi/MAG/essaiebis.asm
 *.dat
+S2/network/unbound_example.conf
