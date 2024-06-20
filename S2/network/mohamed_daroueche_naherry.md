@@ -48,20 +48,25 @@ h4 {
 
 - [Rapport S203](#rapport-s203)
   - [Configuration des machines](#configuration-des-machines)
-    - [net1](#net1)
-    - [net2](#net2)
+    - [net1 et net2](#net1-et-net2)
   - [Service DHCP](#service-dhcp)
-  - [dhcp1](#dhcp1)
+    - [dhcp1](#dhcp1)
+    - [dhcp2](#dhcp2)
   - [Serveur Web](#serveur-web)
+    - [web1](#web1)
+    - [web2](#web2)
   - [Serveur DNS](#serveur-dns)
     - [dns1](#dns1)
+    - [dns2](#dns2)
   - [Serveur SSH](#serveur-ssh)
+    - [ssh1](#ssh1)
+    - [ssh2](#ssh2)
 
 <p style="page-break-before : always;"></p>
 
 ## Configuration des machines
 
-### net1
+### net1 et net2
 
 - porthos
 
@@ -152,9 +157,8 @@ h4 {
   address 10.0.193.3/24
   gateway 10.0.193.1
   up ip route add 10.0.0.0/24 via 10.0.193.1 dev eth1
+  up ip route add 
 ```
-
-### net2
 
 - mousqueton
 
@@ -187,7 +191,9 @@ iface eth0 inet dhcp
 
 ## Service DHCP
 
-## dhcp1
+### dhcp1
+
+
 
 porthos :
   
@@ -198,7 +204,32 @@ option rfc3442-classless-static-routes code 121 = array of integer 8;
 subnet 10.24.0.0 netmask 255.255.0.0 
 {
   range 10.24.0.1 10.27.255.190
-  option rfc-classless-static-routes 24, 10,0,193 10,24,0,1 0, 10,0,193,1;
+  option rfc3422-classless-static-routes 24, 10,0,193 10,24,0,1 0, 10,0,193,1;
+  # option domain-name-servers porthos.dumas
+  default-lease-time 86400;
+  max-lease-time 604800;
+}
+```
+
+- dans le fichier /etc/default/isc-dhcp-server :
+
+```bash
+
+INTERFACES="eth0"
+
+```
+
+athos :
+  
+- dans le fichier /etc/dhcp/dhcp.conf
+
+```bash
+option rfc3442-classless-static-routes code 121 = array of integer 8;
+subnet 10.24.0.0 netmask 255.255.0.0 
+{
+  range 10.24.0.1 10.27.255.190
+  option rfc3422-classless-static-routes 24, 10,0,193 10,160,0,1, 0, 10,0,193,1;
+  option rfc3422-classless-static-routes 24, 10,0,0, 10,160,0,1, 0, 10,0,193,1;
   # option domain-name-servers porthos.dumas
   default-lease-time 86400;
   max-lease-time 604800;
@@ -222,7 +253,8 @@ option rfc3442-classless-static-routes code 121 = array of integer 8;
 subnet 10.136.0.0 netmask 255.255.0.0 
 {
   range 10.136.0.1 10.139.255.190;
-  option rfc-classless-static-routes 24, 10,0,193 10,0,193,2 0, 10,0,193,1;
+  option rfc3422-classless-static-routes 24, 10,0,193 10,136,0,1, 0, 10,0,193,1;
+  option rfc3422-classless-static-routes 24, 10,0,193 10,136,0,1, 0, 10,0,193,1;
   # option domain-name-servers aramis.dumas
   default-lease-time 86400;
   max-lease-time 604800;
@@ -237,17 +269,21 @@ INTERFACES="eth0"
 
 ```
 
-athos :
+darthagnan :
   
 - dans le fichier /etc/dhcp/dhcp.conf
 
 ```bash
 option rfc3442-classless-static-routes code 121 = array of integer 8;
-subnet 10.160.0.0 netmask 255.255.0.0 
+subnet 10.0.12.0 netmask 255.255.255.0 
 {
-  range 10.160.0.1 10.163.255.190
-  option rfc-classless-static-routes 24, 10,0,193 10,160,0,1 0, 10,0,193,1;
-  # option domain-name-servers athos.dumas
+  range 10.0.12.2 10.0.12.242
+  option rfc3422-classless-static-routes 24, 10,0,193 10,0,12,1, 0, 10,0,193,1;
+  option rfc3422-classless-static-routes 24, 10,0,0 10,0,12,1, 0, 10,0,193,1;
+  option rfc3422-classless-static-routes 14, 10,24, 10,0,12,1, 0, 10,0,193,2;
+  option rfc3422-classless-static-routes 14, 10,136, 10,0,12,1, 0, 10,0,193,4;
+  option rfc3422-classless-static-routes 14, 10,160, 10,0,12,1, 0, 10,0,193,5;
+  option domain-name-servers 10.0.12.1
   default-lease-time 86400;
   max-lease-time 604800;
 }
@@ -261,28 +297,102 @@ INTERFACES="eth0"
 
 ```
 
+- dans /etc/syslog.conf
+
+```bash
+
+ipv4-forward
+
+```
+
+- commande : sysctl -p /etc/syslog.conf
+
+porthos :
+  
+- dans le fichier /etc/dhcp/dhcp.conf
+
+```bash
+option rfc3442-classless-static-routes code 121 = array of integer 8;
+subnet 10.24.0.0 netmask 255.255.0.0 
+{
+  range 10.24.0.1 10.27.255.190
+  option rfc3422-classless-static-routes 24, 10,0,193, 10,24,0,1 0, 10,0,193,1;
+  option rfc3422-classless-static-routes 14, 10,136, 10,24,0,1 0, 10,0,193,1
+  option domain-name-servers 10.2
+  default-lease-time 86400;
+  max-lease-time 604800;
+}
+```
+
+- dans le fichier /etc/default/isc-dhcp-server :
+
+```bash
+
+INTERFACES="eth0"
+
+```
+
+### dhcp2
+
+- dans /etc/dhcp/dhcp.conf
+
+```bash
+host planchet
+{
+  hard-address #mettre l'addresse mac de plancher;
+  fix-address 10.0.12.10;
+}
+```
+
+- on start le service dhcp avec : service isc-dhcp-server start
+
+<p style="page-break-before : always;"></p>
+
 ## Serveur Web
+
+### web1
+
+TODO : faire le serveur web pour chaque routeur de chaque équipe en HTTP
+
+### web2
+
+TODO : faire le serveur web pour le routeur admin avec le port 8080 en HTTP
+
+<p style="page-break-before : always;"></p>
 
 ## Serveur DNS
 
 ### dns1
 
-parthos
+- procedure entre entre le serveur et client :
+  - coté serveur :
+    - suivre la configuration pour les fichiers /etc/hosts et /etc/resolve.conf ci-dessous avec les bonnes adresse
+    - cat  /usr/share/doc/unbound/examples/unbound.conf >> /etc/unbound/unbound.conf
+    - nano /etc/unbound/unbound.conf
+    - suivre la configuration du fichier unbound.conf avec les bonnes addresses
+    - service unbound restart
+  - coté client :
+    - suivre la configuration du fichier /etc/hosts ci-dessous
 
-- dans le fichier /etc/hosts
-
-```bash
-
-search passerelle.dumas
-nameserver 10.0.0.53
-
-```
+porthos
 
 - dans le fichier /etc/resolv.conf
 
 ```bash
 
-10.0.0.53 passerelle.dumas
+nameserver 10.0.2.2
+nameserver 10.0.193.1
+
+```
+
+- dans le fichier /etc/hosts
+
+```bash
+
+
+10.0.193.1 dns.dumas
+10.0.2.2 passerelle.dumas
+
 
 ```
 
@@ -293,15 +403,238 @@ nameserver 10.0.0.53
 interface: 10.24.0.1
 access-control: 10.24.0.0/14 allow
 
-interface: 10.0.193.2
-access-control: 10.0.193.0/24 allow
+local-data: "dns.dumas 10.0.0.53"
+local-data: "passerelle.dumas 10.0.2.2"
+verbosity: 1
+do-ip4: yes
+do-udp: yes
+do-tcp: yes
+
 
 ```
 
-TODO : savoir pourquoi une ligne de ubond.conf fait beuguer le serveur
+mousqueton :
 
-- porthos
+- dans /etc/resolv.conf :
+
+```bash
+
+nameserver 10.24.0.1
+
+```
+
+dartagnan
+
+- dans le fichier /etc/resolv.conf
+
+```bash
+
+nameserver 10.0.2.2
+nameserver 10.0.193.1
+
+```
+
+- dans le fichier /etc/hosts
+
+```bash
+
+
+10.0.193.1 dns.dumas
+10.0.2.2 passerelle.dumas
+
+
+```
+
+- dans le fichier /etc/unbound/unbound.conf
+
+```bash
+
+interface: 10.0.12.1
+access-control: 10.0.12.0/14 allow
+
+local-data: "dns.dumas 10.0.0.53"
+local-data: "passerelle.dumas 10.0.2.2"
+verbosity: 1
+do-ip4: yes
+do-udp: yes
+do-tcp: yes
+
+
+```
+
+planchet :
+
+- dans /etc/resolv.conf :
+
+```bash
+
+nameserver 10.0.12.1
+
+```
+
+athos
+
+- dans le fichier /etc/resolv.conf
+
+```bash
+
+nameserver 10.0.2.2
+nameserver 10.0.193.1
+
+```
+
+- dans le fichier /etc/hosts
+
+```bash
+
+
+10.0.193.1 dns.dumas
+10.0.2.2 passerelle.dumas
+
+
+```
+
+- dans le fichier /etc/unbound/unbound.conf
+
+```bash
+
+interface: 10.160.0.1
+access-control: 10.160.0.0/14 allow
+
+local-data: "dns.dumas 10.0.0.53"
+local-data: "passerelle.dumas 10.0.2.2"
+verbosity: 1
+do-ip4: yes
+do-udp: yes
+do-tcp: yes
+
+
+```
+
+bazin :
+
+- dans /etc/resolv.conf :
+
+```bash
+
+nameserver 10.160.0.1
+
+```
+
+aramis
+
+- dans le fichier /etc/resolv.conf
+
+```bash
+
+nameserver 10.0.2.2
+nameserver 10.0.193.1
+
+```
+
+- dans le fichier /etc/hosts
+
+```bash
+
+
+10.0.193.1 dns.dumas
+10.0.2.2 passerelle.dumas
+
+
+```
+
+- dans le fichier /etc/unbound/unbound.conf
+
+```bash
+
+interface: 10.136.0.1
+access-control: 10.136.0.0/14 allow
+
+local-data: "dns.dumas 10.0.0.53"
+local-data: "passerelle.dumas 10.0.2.2"
+verbosity: 1
+do-ip4: yes
+do-udp: yes
+do-tcp: yes
+
+
+```
+
+bazin :
+
+- dans /etc/resolv.conf :
+
+```bash
+
+nameserver 10.136.0.1
+
+```
+
+### dns2
+
+TODO : centralisez la configuration dns sur le serveur richelieu en suivant le plan de projet
+
+<p style="page-break-before : always;"></p>
 
 ## Serveur SSH
 
-TODO : savoir pourquoi on a l'erreur : network is unreachable pour le routeur dartagnan
+### ssh1
+
+- connexion à un serveur ssh :
+  - coté client :
+    - importer les clés. Dans le contexte de l'IUT et du projet, la meilleur procédure est la suivante :
+      - dans le terminal de l'ordinateur
+        - télécharger chaque clé qui sont dans /home/etudiant/Téléchargements
+        - cd /tmp-marionnet/marionnet-XXXXXXX.dir/s203/hostfs #dossiercontenant les machines
+        - ls #affiche des nombres
+        - cat */GUESTNAME #savoir le nom des machines
+        - l'ordre d'affichage de ls correspond à l'ordre de cat */GUESTNAME
+        - cp /home/etudiant/Téléchargements/cle_s203 /tmp-marionnet/marionnet-XXXXXXX.dir/s203/hostfs/x/
+      - dans le terminal du client :
+        - chmod 600 /mnt/hostfs/cle_s203
+        - configurer la machine sur le même réseau que celui du serveur
+        - ssh -i /mnt/hostfs/cle_s203 root@10.0.12.1
+        - donner un mot de passe si cela est voulu
+      - dans le terminal du serveur :
+        - xterm -T nom &
+        - vous pouvez revenir dans le terminal du client si cela est souhaité  
+
+- déroulé dans le projet :
+  - dans la machine planchet
+  
+```bash
+service networking stop 
+ip a flush dev eth0
+```
+
+- dans le fichier /etc/network/interfaces
+
+```bash
+auto eth0
+iface eth0 inet static
+address 192.168.0.140/24
+# donner une addresse ip qui correspond au reseau du serveur ssh
+```
+
+- connexion ssh
+
+```bash
+cd /tmp-marionnet/marionnet-xxxxxxxx.dir/s203/hostfs
+ls #affiche le répertoire de chaque machine sous forme d'un chiffre/nombre
+cat */GUESTNAME #donne le nom des machines pour chaque nom
+cp /home/etudiant/Téléchargements/cle_s203 /tmp-marionnet/marionnet-xxxxxxxx.dir/s203/hostfs/xx
+# marionnet-xxxxxxxx.dir numero aleatoire
+# xx numero de la machine correspondant à planchet
+
+# sur planchet
+chmod 600 /mnt/hostfs/cle_s203
+ssh -i /mnt/hostfs/cle_s203 root@192.168.0.144
+# sur dartagnan
+xterm -T essaie &
+# on configure la machine puis tous les serveurs depuis le terminal externe
+
+```
+
+### ssh2
+
+TODO : rendre les routeurs et serveur accessible uniquement en ssh
