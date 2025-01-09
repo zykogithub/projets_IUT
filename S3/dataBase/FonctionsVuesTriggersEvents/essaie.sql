@@ -1,0 +1,12 @@
+SET @schema_name = 'bds301';
+
+-- Concaténer et exécuter les commandes DROP FUNCTION
+SELECT CONCAT('DROP FUNCTION ', ROUTINE_SCHEMA, '.', ROUTINE_NAME, ';')
+INTO @drop_cmd
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_TYPE = 'FUNCTION' 
+AND ROUTINE_SCHEMA = @schema_name;
+
+PREPARE stmt FROM @drop_cmd;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
