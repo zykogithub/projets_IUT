@@ -1,4 +1,4 @@
-package modele;
+package model;
 
 /**
  * @author tous le groupe

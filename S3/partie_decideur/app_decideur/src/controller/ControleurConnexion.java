@@ -1,19 +1,16 @@
-package controleur;
+package controller;
+import java.awt.event.*;
+import javax.swing.*;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import model.Application;
+import view.VueConnexion;
+import view.VueGroupes;
 
-import javax.swing.JFrame;
-
-import modele.Application;
-import vue.VueConnexion;
-import vue.VueGroupes;
-
-public class ControleurGroupes {
+public class ControleurConnexion {
     private VueConnexion vue;
     private JFrame fenetre;
 
-    public ControleurGroupes(VueConnexion vue,JFrame fenetre) {
+    public ControleurConnexion(VueConnexion vue,JFrame fenetre) {
         this.vue = vue;
         this.fenetre=fenetre;
 
@@ -38,12 +35,15 @@ public class ControleurGroupes {
         	int id_decideur = Application.checkInfos(email,motDePasse);
             if (id_decideur!=-1) {
                 vue.getErrorMessageLabel().setText("");
-                fenetre.setContentPane(new VueGroupes(Application.listeGroupe(id_decideur)));
+                Application.groupes=Application.listeGroupe(id_decideur);
+                Application.mainContainer.add(new VueGroupes(Application.groupes),"Menu");
+                Application.cardLayout.show(Application.mainContainer, "Menu");
+                fenetre.revalidate();
+                fenetre.repaint();
+                
             } else {
                 vue.getErrorMessageLabel().setText("Email ou mot de passe incorrect.");
             }
-            fenetre.revalidate();
-            fenetre.repaint();
         }
     }
 }

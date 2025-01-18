@@ -1,4 +1,4 @@
-package modele;
+package model;
 import java.awt.CardLayout;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import vue.VueConnexion;
-import controleur.ControleurConnexion;
+import controller.ControleurConnexion;
+import view.VueConnexion;
 
 public class Application {
 	public static Connection co;

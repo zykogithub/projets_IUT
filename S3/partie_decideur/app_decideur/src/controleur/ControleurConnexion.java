@@ -34,7 +34,7 @@ public class ControleurConnexion {
             // Simuler une vérification des informations
         	int id_decideur = Application.checkInfos(email,motDePasse);
             if (id_decideur!=-1) {
-                vue.getErrorMessageLabel().setText(""); // Réinitialiser le message d'erreur
+                vue.getErrorMessageLabel().setText("");
                 Application.groupes=Application.listeGroupe(id_decideur);
                 Application.mainContainer.add(new VueGroupes(Application.groupes),"Menu");
                 Application.cardLayout.show(Application.mainContainer, "Menu");

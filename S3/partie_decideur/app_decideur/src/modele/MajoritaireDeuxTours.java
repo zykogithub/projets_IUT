@@ -3,6 +3,9 @@ import java.sql.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * @author tous le groupe
+ */
 public class MajoritaireDeuxTours extends Proposition {
     float indiceSatisfaction;
 
@@ -47,9 +50,9 @@ public class MajoritaireDeuxTours extends Proposition {
         float scoreBudget = 0, scoreSucces = 0, scoreVotants = 0;
 
         // Calcul scoreVotants : proportion des votants sur les membres totaux
-        int totalVotes = getVotes().size(); // Nombre total de votes
-        int maxChoixVotes = 0; // Nombre maximum de votes pour un choix
-        int totalChoixVotes = 0; // Total des votes pour tous les choix
+        int totalVotes = getVotes().size();
+        int maxChoixVotes = 0;
+        int totalChoixVotes = 0;
 
         for (Map.Entry<Integer, Integer> entry : getVotes().entrySet()) {
             int votes = entry.getValue();

@@ -1,4 +1,4 @@
-package modele;
+package model;
 import java.sql.Date;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -6,10 +6,10 @@ import java.util.Map.Entry;
 /**
  * @author tous le groupe
  */
-public class ChoixMultiples extends Proposition {
-    private float indiceSatisfaction;
+public class MajoritaireDeuxTours extends Proposition {
+    float indiceSatisfaction;
 
-    public ChoixMultiples(int id, String titre, String description, Date date_publication, float budget, int id_thematique) {
+    public MajoritaireDeuxTours(int id, String titre, String description, Date date_publication, float budget, int id_thematique) {
         super(id, titre, description, date_publication, budget, id_thematique);
         this.indiceSatisfaction = indiceSatisfaction();
     }
@@ -44,6 +44,8 @@ public class ChoixMultiples extends Proposition {
     
         return (float) max / total;
     }
+
+    
     public float getIndiceSucces(int ratioBudget, int ratioSucces, int ratioVotants, float budgetMax) {
         float scoreBudget = 0, scoreSucces = 0, scoreVotants = 0;
 
@@ -78,7 +80,4 @@ public class ChoixMultiples extends Proposition {
         // Retour du score total
         return scoreVotants + scoreSucces + scoreBudget;
     }
-
-    
-    
-    }    
+}

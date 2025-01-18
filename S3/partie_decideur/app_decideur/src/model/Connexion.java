@@ -1,17 +1,15 @@
-package modele;
+package model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * @author tous le groupe
- */
 public class Connexion {
+    // Informations de connexion
     private static String URL = "jdbc:mysql://projets.iut-orsay.fr:3306/saes3-mmarti32?useSSL=false&serverTimezone=UTC"; // Remplacez "localhost" si nécessaire
-    private static String USER = "saes3-mmarti32";
-    private static String PASSWORD = "JPwzfAbGq3EE+Exv";
+    private static String USER = "saes3-mmarti32"; // Votre identifiant
+    private static String PASSWORD = "JPwzfAbGq3EE+Exv"; // Votre mot de passe
 
     
     public static Connection creerConnexion() {
@@ -19,7 +17,7 @@ public class Connexion {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(URL, USER, PASSWORD);
-			System.out.println("/////////////// Connexion ouverte! ///////////////");
+			System.out.println("///// Connexion ouverte! /////");
 		}
 		catch (ClassNotFoundException e){
 			System.out.println("il manque le driver oracle");
@@ -27,12 +25,12 @@ public class Connexion {
 		}
 		catch (SQLException e) {
 			try {
-				URL = "jdbc:mysql://localhost:3306/projets3?useSSL=false&serverTimezone=UTC";
-				USER = "root";
-				PASSWORD = "root";
+				URL = "jdbc:mysql://localhost:3306/saes3-mmarti32?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"; // Remplacez "localhost" si nécessaire
+				USER = "root"; // Votre identifiant
+				PASSWORD = "Djonodo20050207/"; // Votre mot de passe
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				connection = DriverManager.getConnection(URL, USER, PASSWORD);
-				System.out.println("/////////////// Connexion ouverte! ///////////////");
+				System.out.println("///// Connexion ouverte! /////");
 			} catch (SQLException eBis) {
 				System.err.println("Erreur de connexion : " + eBis.getMessage());
 				System.exit(1);
@@ -81,7 +79,7 @@ public class Connexion {
 	public static void closeConnection(Connection co){
 		try {
 			co.close();
-			System.out.println("/////////////// Connexion fermée! ///////////////");
+			System.out.println("///// Connexion fermée! /////");
 		}
 		catch (SQLException e) {
 			System.out.println("Impossible de fermer la connexion");

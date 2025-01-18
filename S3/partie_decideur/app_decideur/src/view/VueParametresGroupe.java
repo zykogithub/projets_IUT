@@ -1,4 +1,4 @@
-package vue;
+package view;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -11,11 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import java.awt.event.MouseEvent;
+import model.Application;
+import model.Groupe;
+import model.Thematique;
 
-import modele.Application;
-import modele.Groupe;
-import modele.Thematique;
+import java.awt.event.MouseEvent;
 
 public class VueParametresGroupe extends JPanel {
 

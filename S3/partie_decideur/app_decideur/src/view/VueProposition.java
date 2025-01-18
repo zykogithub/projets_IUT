@@ -1,14 +1,14 @@
-package vue;
+package view;
 
 import javax.swing.*;
+
+import model.Application;
+import model.Proposition;
 
 import java.awt.event.MouseEvent;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
-
-import modele.Application;
-import modele.Proposition;
 
 public class VueProposition extends JPanel {
     private JPanel mainPanel;

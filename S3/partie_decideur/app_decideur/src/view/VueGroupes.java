@@ -1,13 +1,14 @@
-package vue;
+package view;
 
 import javax.swing.*;
+
+import model.Application;
+import model.Groupe;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
-
-import modele.Application;
-import modele.Groupe;
 
 public class VueGroupes extends JPanel {
 

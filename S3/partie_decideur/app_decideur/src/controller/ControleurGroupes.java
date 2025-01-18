@@ -1,13 +1,13 @@
-package controleur;
+package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import modele.Application;
-import vue.VueConnexion;
-import vue.VueGroupes;
+import model.Application;
+import view.VueConnexion;
+import view.VueGroupes;
 
 public class ControleurGroupes {
     private VueConnexion vue;

@@ -1,9 +1,10 @@
-package controleur;
+package controller;
 
 import java.util.ArrayList;
-import modele.Groupe;
-import modele.Proposition;
-import vue.VuePropositions;
+
+import model.Groupe;
+import model.Proposition;
+import view.VuePropositions;
 
 public class ControleurProposition {
     private VuePropositions vue;

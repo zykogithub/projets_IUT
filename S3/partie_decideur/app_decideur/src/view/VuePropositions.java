@@ -1,4 +1,4 @@
-package vue;
+package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,10 +12,10 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import controleur.ControleurProposition;
-import modele.Application;
-import modele.Groupe;
-import modele.Proposition;
+import controller.ControleurProposition;
+import model.Application;
+import model.Groupe;
+import model.Proposition;
 
 public class VuePropositions extends JPanel{
     private ImageIcon imageHome;
