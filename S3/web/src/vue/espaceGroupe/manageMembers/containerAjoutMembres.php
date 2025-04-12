@@ -3,11 +3,7 @@
     require_once($chemin."/API/Api.php");
     $api = new Api();
 
-    $api->get([$groupe->get("idGroupe")],null,"SELECT id_internaute, courriel 
-                                FROM internaute 
-                                WHERE id_internaute NOT IN (
-                                    SELECT id_internaute FROM infos_membre WHERE id_groupe = ?)"
-                                );
+    $api->get([$groupe->get("idGroupe")],null,"SELECT id_internaute, courriel FROM internaute WHERE id_internaute NOT IN (SELECT id_internaute FROM infos_membre WHERE id_groupe = ?)");
     $resultat = $api->getValeurRetourne();
 
     $internautes = [];

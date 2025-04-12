@@ -71,8 +71,7 @@
 
         public function thematiques(int $idGroupe){
             $api = new Api();
-            $api->get([$idGroupe],null,"SELECT id_thematique, nom_thematique, budget_thematique
-                                        FROM theme_groupe NATURAL JOIN thematique WHERE id_groupe = ?");
+            $api->get([$idGroupe],null,"SELECT id_thematique, nom_thematique, budget_thematique FROM theme_groupe NATURAL JOIN thematique WHERE id_groupe = ?");
             $resultat = $api->getValeurRetourne();
             $thematiquesData = $resultat;
             var_dump($resultat);
@@ -107,10 +106,7 @@
 
         public static function getGroupesUtilisateur(int $idUtilisateur): array {
             $api = new Api();
-            $api->get([$idUtilisateur],null,"SELECT * FROM groupe G 
-                                                                            INNER JOIN infos_membre IM
-                                                                            ON IM.id_groupe = G.id_groupe
-                                                                            WHERE id_internaute = ?");
+            $api->get([$idUtilisateur],null,"SELECT * FROM groupe G INNER JOIN infos_membre IM ON IM.id_groupe = G.id_groupe WHERE id_internaute = ?");
             $resultat = $api->getValeurRetourne();
             if (!$resultat) {
                 return [];

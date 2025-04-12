@@ -70,11 +70,7 @@
 
         public static function getInternauteById(int $idGroupe, int $idInternaute){
             $api = new Api();
-            $api->get([$idGroupe, $idInternaute],null,"SELECT id_internaute, nom_internaute, prenom_internaute, adresse_postale, courriel, nom_role
-                                        FROM internaute
-                                        NATURAL JOIN infos_membre
-                                        NATURAL JOIN role
-                                        WHERE id_groupe = ? AND id_internaute = ?");
+            $api->get([$idGroupe, $idInternaute],null,"SELECT id_internaute, nom_internaute, prenom_internaute, adresse_postale, courriel, nom_role FROM internaute NATURAL JOIN infos_membre NATURAL JOIN role WHERE id_groupe = ? AND id_internaute = ?");
             $resultat = $api->getValeurRetourne();
             $data=$resultat[0];
             $internaute = new Internaute(
@@ -90,11 +86,7 @@
 
         public static function getMembresGroupe(int $idGroupe): array {
             $api = new Api();
-            $api->get([$idGroupe],null,"SELECT id_internaute, nom_internaute, prenom_internaute, adresse_postale, courriel, nom_role
-                                        FROM internaute
-                                        NATURAL JOIN infos_membre
-                                        NATURAL JOIN role
-                                        WHERE id_groupe = ?");
+            $api->get([$idGroupe],null,"SELECT id_internaute, nom_internaute, prenom_internaute, adresse_postale, courriel, nom_role FROM internaute NATURAL JOIN infos_membre NATURAL JOIN role WHERE id_groupe = ?");
             $resultat = $api->getValeurRetourne();
             if (!$resultat) {
                 return [];

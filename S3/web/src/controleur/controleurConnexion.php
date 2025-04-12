@@ -13,8 +13,7 @@
 			if (is_array($check) && count($check) == 1) {
 				$mdp = $check[0]["hashageMDP"];
 				if (password_verify($_POST["mdp"], $mdp)) {
-					$requete = "SELECT * FROM internaute I
-								WHERE courriel=?";
+					$requete = "SELECT * FROM internaute I WHERE courriel=?";
 					$api->get([$courriel],null,$requete);
 					if($api->getCodDeRetourApi()==CodeDeRetourApi::OK->value){
 						$check=$api->getValeurRetourne();
