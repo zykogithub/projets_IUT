@@ -2,6 +2,12 @@
 
 Ce dépôt stocke tous les projets effectués durant mon BUT informatique
 
+- [projets\_IUT](#projets_iut)
+  - [S1](#s1)
+  - [S2](#s2)
+  - [S3](#s3)
+  - [S4](#s4)
+
 ## S1
 
 - algorithm_project : projet en c++ qui fait différents traitements d'images.
@@ -13,7 +19,7 @@ Ce dépôt stocke tous les projets effectués durant mon BUT informatique
 
 - asm : projet en assembleur sur différents problèmes
 - data_base : exploitation de l'historique des données des jeux olympiques en sql
-- desktop_application : application bureau en java swing pour la simulation de la gestion des épreuves des JO 2024 
+- desktop_application : application bureau en java swing pour la simulation de la gestion des épreuves des JO 2024
 - network : projet marionnet simulant le réseau informatique d'un concours
 
 ## S3
@@ -22,3 +28,7 @@ Ce dépôt stocke tous les projets effectués durant mon BUT informatique
   - patie_web : un site web en php pour la partie principal du projet
   - partie_decideur : une application java swing permettant la consultation des propositions d'un groupe et des propostions d'algorithme de choix
 
+## S4
+
+- s401 : projet jeu de mathématique :
+  - coder sur unity, ce jeu consiste à résoudre des problèmes de mathématiques de niveau primaire en ce dirigeant grâce à notre jetpack vers la bonne solution
