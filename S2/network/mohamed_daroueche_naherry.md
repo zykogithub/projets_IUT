@@ -193,8 +193,6 @@ iface eth0 inet dhcp
 
 ### dhcp1
 
-
-
 porthos :
   
 - dans le fichier /etc/dhcp/dhcp.conf

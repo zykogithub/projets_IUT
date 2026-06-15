@@ -53,7 +53,7 @@ Finally we downloaded mariadb to model the database. For this the following comm
 
 First we created a new MySQL session to model the database with this
 order:
->[!NOTE] 
+>[!NOTE]
 >sudo mysql -u root –p
 
 Then we created a new user and a password associated with this user : 
@@ -76,7 +76,7 @@ Then we can login with the following order : sudo mysql -u prof –p
 
 **<a name=part_3_2></a>Creation of data base**
 
-The following SQL instructions were carried out from the terminal in order to create the database : 
+The following SQL instructions were carried out from the terminal in order to create the database :
 
 >1. CREATE TABLE CAMPING.CAMPING (
 NumCamping INT PRIMARY KEY,
@@ -105,11 +105,10 @@ Adding foreign keys. (This was done like this because we were unable to add the 
 
 **<a name=part_3_3></a>Data insertion**
 
-The following instructions were carried out from the terminal in order to fill the database with data : 
+The following instructions were carried out from the terminal in order to fill the database with data :
 
 
 >This is a standard NOTE block.
-
 
 >1. INSERT INTO CAMPING.CAMPING VALUES
 (1,'Le Paradis','123 Rue de la Forêt','0123456789','2023-05-01','2023-10-31',4,'Excellente'),
