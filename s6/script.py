@@ -18,8 +18,9 @@ def traiter(df: pd.DataFrame) -> tuple[list[float], list[float]]:
     tab = df.iloc[5:9]
     imageQualite = tab.iloc[-1].iloc[4:-1].dropna()
     prix = tab.iloc[0].iloc[4:-1].dropna()
-    imageQualite = imageQualite.apply(lambda x: float(x.strip().replace(',', '.'))).to_list() 
-    prix = prix.apply(lambda x: float(x.strip().replace(',', '.'))).to_list()
+    remplacerVirgule : Callable[[str], float] = lambda x: float(x.strip().replace(',', '.'))
+    imageQualite = imageQualite.apply(remplacerVirgule).to_list() 
+    prix = prix.apply(remplacerVirgule).to_list()
     return imageQualite, prix
 
 obtenirCA : Callable[[pd.DataFrame,int],list[float]] =  lambda ca, i : ca.iloc[i].apply(lambda x: x * ECHELLE_POINT ).to_list()
